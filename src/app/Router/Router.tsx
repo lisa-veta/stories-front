@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
-} from "react-router-dom";
+} from 'react-router-dom';
 
-import { ROUTES } from "./routes";
-import { AccountPage } from "@pages/AccountPage";
+import { ROUTES } from './routes';
+import { AccountPage } from '@pages/AccountPage';
 
 const router = createBrowserRouter([
   {

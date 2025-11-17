@@ -47,7 +47,7 @@ export default defineConfig([
             "eol-last": "error",
             "comma-spacing": ["error", { "before": false, "after": true }],
             "semi": ["error", "always"],
-            "quotes": ["error", "double"],
+            "quotes": ["error", "single"],
             "object-curly-spacing": ["error", "always"],
             "array-bracket-spacing": ["error", "never"],
             "comma-dangle": ["error", "always-multiline"],

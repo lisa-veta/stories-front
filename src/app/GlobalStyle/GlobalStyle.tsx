@@ -1,6 +1,6 @@
-import { createGlobalStyle } from "styled-components";
-import normalize from "styled-normalize";
-import type { Theme } from "@app/Themes/themes";
+import { createGlobalStyle } from 'styled-components';
+import normalize from 'styled-normalize';
+import type { Theme } from '@app/Themes/themes';
 
 export const GlobalStyle = createGlobalStyle<{ theme?: Theme }>`
   ${normalize}
@@ -13,7 +13,7 @@ export const GlobalStyle = createGlobalStyle<{ theme?: Theme }>`
 
   body {
     font-family: 'Inter', sans-serif;
-    background-color: ${({ theme }) => theme?.color?.background?.default || "#fff"};
-    color: ${({ theme }) => theme?.color?.text?.primary || "#000"};
+    background-color: ${({ theme }) => theme?.color?.background?.default || '#fff'};
+    color: ${({ theme }) => theme?.color?.text?.primary || '#000'};
   }
 `;
