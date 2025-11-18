@@ -1,0 +1,10 @@
+export { Banner as BannerIcon } from './Banner';
+export { Story as StoryIcon } from './Story';
+export { OnboardingStory as OnboardingStoryIcon } from './OnboardingStory';
+export { BottomSheet as BottomSheetIcon } from './BottomSheet';
+export { RunningLine as RunningLineIcon } from './RunningLine';
+export { Stock as StockIcon } from './Stock';
+export { Doc as DocIcon } from './Doc';
+export { Users as UsersIcon } from './Users';
+export { Basket as BasketIcon } from './Basket';
+export { Settings as SettingsIcon } from './Settings';
