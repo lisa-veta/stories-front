@@ -1,5 +1,11 @@
+import { ContentSideBar } from '@widgets/ContentSideBar';
+import * as SC from './AccountPage.styles';
 export const AccountPage = () => {
   return(
-    <div>Hello World</div>
+    <SC.MainContainer>
+      <ContentSideBar/>
+      <SC.ContentContainer>
+      </SC.ContentContainer>
+    </SC.MainContainer>
   );
 };
