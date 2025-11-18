@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { getTypographyStyles } from '../model/typography.service';
-import type { TypographyProps } from '@shared/ui/Typography/lib/types.ts';
+import type { TypographyProps } from '@shared/ui/Typography/lib/types';
 
 export const StyledTypography = styled.span.withConfig({
   shouldForwardProp: (prop) => !['variant', 'color', 'align'].includes(prop),
@@ -12,5 +12,5 @@ export const StyledTypography = styled.span.withConfig({
 };
   
   text-align: ${({ align = 'left' }) => align};
-  margin: 0;
+  margin: 0;  
 `;

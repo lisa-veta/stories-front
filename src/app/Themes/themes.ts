@@ -6,6 +6,8 @@ export interface ThemeColors {
         body: string;
     };
     background: {
+        primary: string;
+        secondary: string;
         default: string;
         paper: string;
         active: string;
@@ -45,9 +47,11 @@ export const lightTheme: Theme = {
       body: 'rgba(0, 0, 0, 0.6)',
     },
     background: {
+      primary: '#0088FF',
+      secondary: '#0067bf',
       default: '#F7F9FB',
       paper: '#FFFFFF',
-      active: 'rgba(28, 28, 28, 0.05)',
+      active: '#333333',
       active2: 'rgba(28,28,28,0.13)',
       modal: 'rgba(0, 0, 0, 0.9)',
     },
@@ -81,6 +85,8 @@ export const darkTheme: Theme = {
       body: 'rgba(0, 0, 0, 0.6)',
     },
     background: {
+      primary: '#0088FF',
+      secondary: '#0067bf',
       default: '#1C1C1C',
       paper: '#2E2E2E',
       active: 'rgba(28, 28, 28, 0.05)',

@@ -1,7 +1,6 @@
 import { http, HttpResponse, HttpHandler } from 'msw';
 import { type ApiResponse, type ListResponse } from '@shared/api';
-
-const baseURL = import.meta.env.VITE_API_URL;
+import { baseURL } from '@mocks/config/constants';
 
 export interface ContentHandlersConfig<T> {
   endpoint: string;
