@@ -4,7 +4,7 @@ import { Typography } from '@shared/ui/Typography';
 export const Header = styled.header`
   width: 100%;
   padding: 10px 20px;
-  background-color: ${({ theme }) => theme.color.background.modal};
+  background-color: ${({ theme }) => theme.color.background.gray90};
   color: ${({ theme }) => theme.color.text.secondary};
   display: flex;
   justify-content: space-between;

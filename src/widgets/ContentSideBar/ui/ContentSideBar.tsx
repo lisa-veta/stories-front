@@ -2,8 +2,6 @@ import * as SC from './ContentSideBar.styles';
 import { Button } from '@shared/ui/Button';
 import { useNavigate } from 'react-router-dom';
 import { Typography } from '@shared/ui/Typography';
-import { useState } from 'react';
-
 import {
   SIDEBAR_CONTENT_ITEMS,
   SIDEBAR_CONTROL_ITEMS,
@@ -11,62 +9,44 @@ import {
   type SidebarItem,
 } from '@widgets/ContentSideBar/config/items';
 
+interface ContentSideBarProps {
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
 
-export const ContentSideBar = () => {
+export const ContentSideBar = ({ activeTab, onTabChange } : ContentSideBarProps) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('banners');
 
   const handleClick = (item : SidebarItem) => {
-    setActiveTab(item.value);
+    onTabChange(item.value);
     navigate(item.path);
   };
 
+  const renderItems = (items: SidebarItem[]) =>
+    items.map(item => {
+      const IconComponent = item.icon;
+      return (
+        <Button
+          key={item.value}
+          onClick={() => handleClick(item)}
+          variant={'sideBar'}
+          isActive={activeTab === item.value}
+        >
+          <IconComponent/>
+          <Typography variant={'caption'}>
+            {item.label}
+          </Typography>
+        </Button>
+      );
+    });
+
   return(
     <SC.ContentSideBarStyles>
-      {SIDEBAR_CONTENT_ITEMS.map(item => {
-        const IconComponent = item.icon;
-        return (
-          <Button key={item.value}
-            onClick={() => handleClick(item)}
-            variant={'sideBar'}
-            isActive={activeTab === item.value}
-          >
-            <IconComponent/>
-            <Typography variant={'caption'}>
-              {item.label}
-            </Typography>
-          </Button>);
-      })}
+      {renderItems(SIDEBAR_CONTENT_ITEMS)}
       <SC.Divider/>
-      {SIDEBAR_CONTROL_ITEMS.map(item => {
-        const IconComponent = item.icon;
-        return (
-          <Button key={item.value}
-            onClick={() => handleClick(item)}
-            variant={'sideBar'}
-            isActive={activeTab === item.value}
-          >
-            <IconComponent/>
-            <Typography variant={'caption'}>
-              {item.label}
-            </Typography>
-          </Button>);
-      })}
+      {renderItems(SIDEBAR_CONTROL_ITEMS)}
       <SC.Divider/>
-      {SIDEBAR_SETTINGS_ITEMS.map(item => {
-        const IconComponent = item.icon;
-        return (
-          <Button key={item.value}
-            onClick={() => handleClick(item)}
-            variant={'sideBar'}
-            isActive={activeTab === item.value}
-          >
-            <IconComponent/>
-            <Typography variant={'caption'}>
-              {item.label}
-            </Typography>
-          </Button>);
-      })}
+      {renderItems(SIDEBAR_SETTINGS_ITEMS)}
     </SC.ContentSideBarStyles>
   );
 };

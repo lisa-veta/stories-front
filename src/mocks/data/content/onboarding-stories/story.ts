@@ -1,6 +1,7 @@
-import type { StoryPreview, Story } from '@shared/api';
+// story.ts
+import type { OnboardingStoryPreview, OnboardingStory } from '@shared/api';
 
-export const mockStories: StoryPreview[] = [
+export const mockOnboardingStories: OnboardingStoryPreview[] = [
   {
     id: 1,
     title: 'Новогодняя акция 2024',
@@ -31,8 +32,8 @@ export const mockStories: StoryPreview[] = [
 ];
 
 // Для детальной страницы - используем полный Story
-export const mockStoryDetail: Story = {
-  ...mockStories[0],
+export const mockOnboardingStoriesDetail: OnboardingStory = {
+  ...mockOnboardingStories[0],
   // Дополнительные поля для полной истории
   title_position: 'middle',
   title_class: 'white-on-blue',
@@ -82,8 +83,8 @@ export const mockStoryDetail: Story = {
 };
 
 // Создаем еще одну детальную историю для ID 2
-export const mockStoryDetail2: Story = {
-  ...mockStories[1],
+export const mockStoryDetail2: StOnboardingStory = {
+  ...mockOnboardingStories[1],
   // Дополнительные поля для полной истории
   title_position: 'top',
   title_class: 'default',
@@ -119,4 +120,4 @@ export const mockStoryDetail2: Story = {
 };
 
 // Для обработчиков MSW - массив детальных данных
-export const mockStoryDetails = [mockStoryDetail, mockStoryDetail2];
+export const mockStoryDetails = [mockOnboardingStoriesDetail, mockStoryDetail2];

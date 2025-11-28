@@ -17,7 +17,7 @@ export const RunningLine = ({
       stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
-      stroke-linejoin="round"
+      strokeLinejoin="round"
     />
   </svg>
 

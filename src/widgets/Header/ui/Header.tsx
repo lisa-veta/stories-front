@@ -23,7 +23,7 @@ export const Header = () => {
         </SC.Link>
         <Button variant={'secondary'} onClick={handleLogout}>
           <Typography>
-            Выход
+            Выйти
           </Typography>
         </Button>
       </SC.Container>
