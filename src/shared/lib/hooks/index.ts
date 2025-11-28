@@ -1,0 +1,1 @@
+export { useContentManager } from './useContentManager';
