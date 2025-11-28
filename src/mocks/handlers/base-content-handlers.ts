@@ -1,15 +1,16 @@
+// handlers.ts
 import { http, HttpResponse, HttpHandler } from 'msw';
 import { type ApiResponse, type ListResponse } from '@shared/api';
 import { baseURL } from '@mocks/config/constants';
 
-export interface ContentHandlersConfig<T> {
+export interface ContentHandlersConfig<T, U = T> {
   endpoint: string;
   mockData: T[];
-  detailData?: T[];
+  detailData?: U[];
 }
 
-export function createContentHandlers<T>(config: ContentHandlersConfig<T>): HttpHandler[] {
-  const { endpoint, mockData, detailData = mockData } = config;
+export function createContentHandlers<T, U = T>(config: ContentHandlersConfig<T, U>): HttpHandler[] {
+  const { endpoint, mockData, detailData = mockData as unknown as U[] } = config;
 
   return [
     // GET /endpoint - получение списка
@@ -25,8 +26,8 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
       const { id } = params;
       const itemId = parseInt(id as string);
 
-      const item = detailData.find(item => (item as any).id === itemId);
-
+      const item = detailData.find((item: any) => item.id === itemId);
+      console.log('item', item);
       if (!item) {
         return HttpResponse.json(
           { error: 'Item not found' },
@@ -34,7 +35,7 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
         );
       }
 
-      const responseData: ApiResponse<T> = {
+      const responseData: ApiResponse<U> = {
         data: item,
       };
 
@@ -43,9 +44,9 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
 
     // POST /endpoint - создание
     http.post(`${baseURL}${endpoint}`, async ({ request }) => {
-      const newItem = await request.json() as T;
+      const newItem = await request.json() as U;
 
-      const responseData: ApiResponse<T> = {
+      const responseData: ApiResponse<U> = {
         data: newItem,
       };
 
@@ -56,9 +57,9 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
     http.put(`${baseURL}${endpoint}/:id`, async ({ params, request }) => {
       const { id } = params;
       const itemId = parseInt(id as string);
-      const updates = await request.json() as T;
+      const updates = await request.json() as Partial<U>;
 
-      const existingItem = mockData.find((item: any) => item.id === itemId);
+      const existingItem = detailData.find((item: any) => item.id === itemId);
       if (!existingItem) {
         return HttpResponse.json(
           { error: 'Item not found' },
@@ -66,8 +67,8 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
         );
       }
 
-      const responseData: ApiResponse<T> = {
-        data: updates,
+      const responseData: ApiResponse<U> = {
+        data: { ...existingItem, ...updates } as U,
       };
 
       return HttpResponse.json(responseData);
@@ -78,7 +79,7 @@ export function createContentHandlers<T>(config: ContentHandlersConfig<T>): Http
       const { id } = params;
       const itemId = parseInt(id as string);
 
-      if (!mockData.find((item: any) => item.id === itemId)) {
+      if (!detailData.find((item: any) => item.id === itemId)) {
         return HttpResponse.json(
           { error: 'Item not found' },
           { status: 404 },

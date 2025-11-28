@@ -7,7 +7,7 @@ import type {
   Stock,
   StockPreview,
   BottomSheet,
-  BottomSheetPreview,
+  BottomSheetPreview, OnboardingStory, OnboardingStoryPreview,
 } from '../types';
 import  { ContentManager } from '@shared/api/core/content-manager.ts';
 import  { StoriesManager } from '@shared/api/core/stories/stories-manager.ts';
@@ -27,6 +27,10 @@ export class ContentManagerFactory {
 
   createBottomSheetsManager(): ContentManager<BottomSheet, BottomSheetPreview> {
     return new ContentManager('/bottom-sheets');
+  }
+
+  createOnboardingStoriesManager(): ContentManager<OnboardingStory, OnboardingStoryPreview> {
+    return new ContentManager('/onboarding-stories');
   }
 
   createStoriesManager(): StoriesManager {

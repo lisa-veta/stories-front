@@ -34,6 +34,10 @@ class ApiContainer {
   get bottomSheets() {
     return this.factory.createBottomSheetsManager();
   }
+
+  get onboardingStories() {
+    return this.factory.createOnboardingStoriesManager();
+  }
 }
 
 export const apiContainer = new ApiContainer();

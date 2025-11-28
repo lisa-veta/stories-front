@@ -14,32 +14,94 @@ export interface User {
   role: string;
 }
 
+export interface User {
+  id: number;
+  username: string;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+}
+
 export interface ContentPreview {
   id: number;
   title: string;
   short_title?: string;
   status: 'draft' | 'active' | 'archived';
   published: boolean;
-  preview_url?: string;
   created_at: string;
   updated_at: string;
   created_by: Pick<User, 'id' | 'username'>;
-  publish_at?: string;
-  unpublish_at?: string;
+  publish_at: string;
+  unpublish_at: string;
+  preview_url?: string;
 }
 
 export interface StoryPreview extends ContentPreview {
   slides_count: number;
-  tag?: {
-    id: number;
-    name: string;
-  };
+  tag?: Tag;
+}
+
+export interface Story extends Omit<StoryPreview, 'slides_count'> {
+  title_position?: 'top' | 'middle' | 'bottom';
+  title_class?: string;
+  subTitle?: string;
+
+  cta_text?: string;
+  cta_url?: string;
+  cta_class?: string;
+  show_cta_on_cover?: boolean;
+
+  action: 'absent' | 'link' | 'story' | 'deeplink';
+  previewUrl?: string;
+
+  effect_id?: number;
+  filter_id?: number;
+
+  slides: Slide[];
+}
+
+export interface Slide {
+  id: number;
+  story_id: number;
+  sort: number;
+
+  text?: string;
+  textPosition?: 'top' | 'middle' | 'bottom';
+  textClass?: string;
+
+  isCtaVisible: boolean;
+  isCallTaskVisible: boolean;
+
+  useVideo: boolean;
+
+  image_url?: string;
+  video_url?: string;
+}
+
+export interface CreateStoryData extends Omit<Story,
+  'id' | 'created_at' | 'updated_at' | 'created_by' | 'slides_count' | 'slides'
+> {
+  slides?: CreateSlideData[];
+}
+
+export interface UpdateStoryData extends Partial<CreateStoryData> {}
+
+export interface CreateSlideData extends Omit<Slide, 'id' | 'story_id'> {}
+
+export interface UpdateSlideData extends Partial<CreateSlideData> {}
+
+export interface OnboardingStoryPreview extends ContentPreview {
+  slides_count: number;
+  tag?: Tag;
 }
 
 export interface BannerPreview extends ContentPreview {
-  button_text?: string;
-  button_url?: string;
+  actionText?: string;
+  url?: string;
   color?: string;
+  preview_url: string;
 }
 
 export interface RunningLinePreview extends ContentPreview {
@@ -57,26 +119,25 @@ export interface BottomSheetPreview extends ContentPreview {
   button_text?: string;
 }
 
-export interface Story extends StoryPreview {
+export interface OnboardingStory extends Omit<OnboardingStoryPreview, 'slides_count'> {
+  title_position?: 'top' | 'middle' | 'bottom';
+  title_class?: string;
+  subTitle?: string;
   cta_text?: string;
   cta_url?: string;
   cta_class?: string;
-  show_cta_on_cover: boolean;
-  title_position?: string;
-  title_class?: string;
+  show_cta_on_cover?: boolean;
+  action: 'absent' | 'link' | 'story' | 'deeplink';
+  previewUrl?: string;
+  effect_id?: number;
   filter_id?: number;
-  tag_id?: number;
   slides: Slide[];
-  filter?: Filter;
 }
 
 export interface Banner extends BannerPreview {
   text: string;
   color: string;
   image_path?: string;
-  published: boolean;
-  publish_at?: string;
-  unpublish_at?: string;
   show_promotion_end: boolean;
   canClose: boolean;
   expire: number;
@@ -112,19 +173,6 @@ export interface BottomSheet extends BottomSheetPreview {
   button_url?: string;
   image?: string;
   filter?: Filter;
-}
-
-export interface Slide {
-  id: number;
-  story_id: number;
-  sort: number;
-  html_content: string;
-  css_styles?: string;
-  is_cta_visible: boolean;
-  is_calltask_visible: boolean;
-  metadata?: Record<string, any>;
-  created_at: string;
-  updated_at: string;
 }
 
 export interface Filter {

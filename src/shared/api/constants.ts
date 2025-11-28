@@ -9,5 +9,6 @@ export const API_ENDPOINTS = {
     RUNNING_LINES: '/running-lines',
     STOCKS: '/stocks',
     BOTTOM_SHEETS: '/bottom-sheets',
+    ONBOARDING_STORIES: '/onboarding-stories',
   },
 } as const;
