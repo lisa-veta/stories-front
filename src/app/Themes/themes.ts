@@ -11,8 +11,11 @@ export interface ThemeColors {
         default: string;
         paper: string;
         active: string;
-        active2?: string;
-        modal: string;
+        gray25: string;
+        gray50: string;
+        gray90: string;
+        gray05: string;
+        banner: string;
     };
     icon: {
         primary: string;
@@ -23,15 +26,10 @@ export interface ThemeColors {
     };
     white: string;
     black: string;
-    eerieBlack: string;
-    seasalt: string;
-    amber: string;
-    harvestGold: string;
-    jet: string;
-    azure: string;
-    aliceBlue: string;
-    argentinianBlue: string;
-    yellow: string;
+    red: string;
+    green: string;
+    orange: string;
+    purple: string;
 }
 
 export interface Theme {
@@ -52,8 +50,11 @@ export const lightTheme: Theme = {
       default: '#F7F9FB',
       paper: '#FFFFFF',
       active: '#333333',
-      active2: 'rgba(28,28,28,0.13)',
-      modal: 'rgba(0, 0, 0, 0.9)',
+      gray25: 'rgba(0,0,0,0.25)',
+      gray50: 'rgba(0,0,0,0.50)',
+      gray90: 'rgba(0,0,0,0.9)',
+      gray05: 'rgba(0,0,0,0.5)',
+      banner: 'rgba(219, 213, 255, 0.5)',
     },
     icon: {
       primary: '#1C1C1C',
@@ -64,51 +65,9 @@ export const lightTheme: Theme = {
     },
     white: '#FFF',
     black: '#000',
-    eerieBlack: '#1C1C1C',
-    seasalt: '#F7F9FB',
-    amber: '#FFBF00',
-    harvestGold: '#DA9603',
-    jet: '#2E2E2E',
-    azure: '#1082FF',
-    aliceBlue: '#EEF2F7',
-    argentinianBlue: '#63aeff',
-    yellow: '#FFF824',
-  },
-};
-
-export const darkTheme: Theme = {
-  color: {
-    text: {
-      primary: '#FFFFFF',
-      secondary: '#1C1C1C',
-      subtitle: 'rgba(255, 255, 255, 0.4)',
-      body: 'rgba(0, 0, 0, 0.6)',
-    },
-    background: {
-      primary: '#0088FF',
-      secondary: '#0067bf',
-      default: '#1C1C1C',
-      paper: '#2E2E2E',
-      active: 'rgba(28, 28, 28, 0.05)',
-      modal: 'rgba(0, 0, 0, 0.9)',
-    },
-    icon: {
-      primary: '#FFFFFF',
-      secondary: 'rgba(255, 255, 255, 0.6)',
-    },
-    border: {
-      primary: 'rgba(28, 28, 28, 0.1)',
-    },
-    white: '#FFF',
-    black: '#000',
-    eerieBlack: '#1C1C1C',
-    seasalt: '#F7F9FB',
-    amber: '#FFBF00',
-    harvestGold: '#DA9603',
-    jet: '#2E2E2E',
-    azure: '#1082FF',
-    aliceBlue: '#EEF2F7',
-    argentinianBlue: '#63aeff',
-    yellow: '#FFF824',
+    red: '#FF4A4A',
+    green: '#89FF57',
+    orange: '#FFAA48',
+    purple: '#BAA6FF',
   },
 };

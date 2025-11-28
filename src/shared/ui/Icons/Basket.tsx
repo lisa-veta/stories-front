@@ -17,7 +17,7 @@ export const Basket = ({
       stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
-      stroke-linejoin="round"></path>
+      strokeLinejoin="round"></path>
   </svg>
 );
 

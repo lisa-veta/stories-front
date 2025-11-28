@@ -8,3 +8,5 @@ export { Doc as DocIcon } from './Doc';
 export { Users as UsersIcon } from './Users';
 export { Basket as BasketIcon } from './Basket';
 export { Settings as SettingsIcon } from './Settings';
+export { Edit as EditIcon } from './Edit';
+export { Calendar as CalendarIcon } from './Calendar';
