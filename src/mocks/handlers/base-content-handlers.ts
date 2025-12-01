@@ -27,7 +27,6 @@ export function createContentHandlers<T, U = T>(config: ContentHandlersConfig<T,
       const itemId = parseInt(id as string);
 
       const item = detailData.find((item: any) => item.id === itemId);
-      console.log('item', item);
       if (!item) {
         return HttpResponse.json(
           { error: 'Item not found' },

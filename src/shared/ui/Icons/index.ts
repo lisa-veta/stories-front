@@ -10,3 +10,6 @@ export { Basket as BasketIcon } from './Basket';
 export { Settings as SettingsIcon } from './Settings';
 export { Edit as EditIcon } from './Edit';
 export { Calendar as CalendarIcon } from './Calendar';
+export { Plus as PlusIcon } from './Plus';
+export { Filters as FiltersIcon } from './Filters';
+export { Statistics as StatisticsIcon } from './Statistics';

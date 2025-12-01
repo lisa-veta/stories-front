@@ -28,12 +28,31 @@ const ButtonVariants = {
 
 interface ButtonProps {
   variant?: keyof typeof ButtonVariants;
-  width?: string;
+  width?: string | number;
+  padding?: string;
+  paddingTop?: string | number;
+  paddingRight?: string | number;
+  paddingBottom?: string | number;
+  paddingLeft?: string | number;
 }
 
 export const Button = styled.button<ButtonProps>`
-    width: ${({ width }) => width || '100%'};
-    padding: 10px;
+    width: ${({ width }) => width ? `${width}px` : '100%'};
+    ${({ padding, paddingTop, paddingRight, paddingBottom, paddingLeft }) =>
+    !padding && `
+      padding-top: ${paddingTop ?
+    (typeof paddingTop === 'number' ? `${paddingTop}px` : paddingTop)
+    : '10px'};
+      padding-right: ${paddingRight ?
+    (typeof paddingRight === 'number' ? `${paddingRight}px` : paddingRight)
+    : '10px'};
+      padding-bottom: ${paddingBottom ?
+    (typeof paddingBottom === 'number' ? `${paddingBottom}px` : paddingBottom)
+    : '10px'};
+      padding-left: ${paddingLeft ?
+    (typeof paddingLeft === 'number' ? `${paddingLeft}px` : paddingLeft)
+    : '10px'};
+    `}
     border-radius: 20px;
     border: none;
     cursor: pointer;

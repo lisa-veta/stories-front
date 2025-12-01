@@ -2,7 +2,7 @@ import * as SC from './CardPreview.styles';
 import { Badge } from '@shared/ui/Badge';
 import { useTheme } from 'styled-components';
 import { Button } from '@shared/ui/Button';
-import { BasketIcon, CalendarIcon, EditIcon } from '@shared/ui/Icons';
+import { BasketIcon, CalendarIcon, EditIcon, StatisticsIcon } from '@shared/ui/Icons';
 import { formatDate } from '@shared/lib/date';
 import { Typography } from '@shared/ui/Typography';
 
@@ -77,6 +77,9 @@ export const CardPreview = ({
           <Button variant={'secondary'}>
             <EditIcon/>
             Редактировать
+          </Button>
+          <Button variant={'secondary'} width={'auto'}>
+            <StatisticsIcon color={theme.color.background.primary}/>
           </Button>
           <Button variant={'secondary'} width={'auto'}>
             <BasketIcon color={theme.color.red}/>
