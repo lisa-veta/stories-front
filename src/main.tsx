@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@app/App.tsx';
+import { StoreProvider } from '@app/StoreProvider/ui/StoreProvider';
 
 async function initMSW() {
   if (import.meta.env.DEV) {
@@ -12,7 +13,9 @@ async function initMSW() {
 initMSW().then(() => {
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <App/>
+      <StoreProvider>
+        <App/>
+      </StoreProvider>
     </StrictMode>,
   );
 });
