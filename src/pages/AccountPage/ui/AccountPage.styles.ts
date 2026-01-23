@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const MainContainer = styled.section`
     display: flex;
     flex-direction: row;
-    height: 100vh; /* Фиксированная высота */
+    height: 100vh;
 `;
 
 export const ContentContainer = styled.section`
@@ -52,4 +52,14 @@ export const CenterContainer = styled.section`
     gap: 30px;
     justify-content: center;
     align-items: center;
+`;
+
+export const TabsContainer = styled.div`
+  flex: 1;
+  overflow: hidden;
+`;
+
+export const TabPaneContainer = styled.div`
+  height: 100%;
+  overflow-y: auto;
 `;

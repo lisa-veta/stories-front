@@ -5,7 +5,7 @@ type ButtonVariant = 'primary' | 'secondary' | 'sideBar';
 interface ButtonProps {
   variant?: ButtonVariant;
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: 'button' | 'submit' | 'reset';
   isActive?: boolean,
   width?: string;

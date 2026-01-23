@@ -1,7 +1,7 @@
 import * as SC from './ControlPanel.styles';
 import { Button } from '@shared/ui/Button';
 import { FiltersIcon, PlusIcon } from '@shared/ui/Icons';
-import { CustomSelect, DateSelect } from '@shared/ui/Select';
+import { MultipleSelect, DateSelect } from '@shared/ui/Select';
 import type { Dayjs } from 'dayjs';
 import type { ContentFilters } from '@pages/AccountPage/ui/AccountPage';
 
@@ -42,7 +42,7 @@ export const ControlPanel = ({ filters, onFiltersChange }: ControlPanelProps) =>
         Создать
       </Button>
       <SC.Block>
-        <CustomSelect
+        <MultipleSelect
           options={[
             { value: 'my', label: 'Мои проекты' },
             { value: 'other', label: 'Другие проекты' },
@@ -54,7 +54,7 @@ export const ControlPanel = ({ filters, onFiltersChange }: ControlPanelProps) =>
             width: '290px',
           }}
         />
-        <CustomSelect
+        <MultipleSelect
           options={[
             { value: 'draft', label: 'Черновик' },
             { value: 'active', label: 'Активно' },

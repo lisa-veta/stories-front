@@ -119,7 +119,17 @@ export const AccountPage = () => {
       <ContentSideBar activeTab={activeTab} onTabChange={setActiveTab} />
       <SC.ContentContainer>
         <ControlPanel filters={filters} onFiltersChange={setFilters}/>
-        <Tabs centered defaultActiveKey="1" items={tabs} />
+        <SC.TabsContainer>
+          <Tabs
+            centered
+            defaultActiveKey="1"
+            items={tabs}
+            style={{
+              height: '100%',
+              overflow: 'auto',
+            }}
+          />
+        </SC.TabsContainer>
       </SC.ContentContainer>
     </SC.MainContainer>
   );

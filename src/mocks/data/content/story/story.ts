@@ -13,7 +13,7 @@ export const mockStories: StoryPreview[] = [
     created_by: { id: 1, username: 'admin' },
     publish_at: '2024-01-20T00:00:00Z',
     unpublish_at: '2024-02-01T23:59:59Z',
-    tag: { id: 1, name: 'Акции' },
+    preview_url: 'assets/banner.png',
   },
   {
     id: 2,
@@ -27,6 +27,7 @@ export const mockStories: StoryPreview[] = [
     created_by: { id: 2, username: 'manager' },
     publish_at: '2024-01-20T00:00:00Z',
     unpublish_at: '2024-02-01T23:59:59Z',
+    preview_url: 'assets/banner.png',
   },
 ];
 

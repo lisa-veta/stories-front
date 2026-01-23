@@ -10,6 +10,7 @@ export interface ThemeColors {
         secondary: string;
         default: string;
         paper: string;
+        edit: string;
         active: string;
         gray25: string;
         gray50: string;
@@ -49,6 +50,7 @@ export const lightTheme: Theme = {
       secondary: '#0067bf',
       default: '#F7F9FB',
       paper: '#FFFFFF',
+      edit: '#F5F5F5',
       active: '#333333',
       gray25: 'rgba(0,0,0,0.25)',
       gray50: 'rgba(0,0,0,0.50)',

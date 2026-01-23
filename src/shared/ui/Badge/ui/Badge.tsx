@@ -12,7 +12,7 @@ export const Badge = ({
 } : BadgeProps) => {
   return (
     <SC.Badge backgroundColor={backgroundColor}>
-      <Typography variant={'subtitle1'}>
+      <Typography >
         {children}
       </Typography>
     </SC.Badge>

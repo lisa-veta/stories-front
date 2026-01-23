@@ -1,1 +1,1 @@
-export { CustomSelect, DateSelect } from './ui/CustomSelect';
+export { MultipleSelect, DateSelect, CustomSelect } from './ui/MultipleSelect.tsx';

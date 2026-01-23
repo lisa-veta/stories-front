@@ -8,7 +8,7 @@ export const StyledTypography = styled.span.withConfig({
   ${({ variant = 'body1' }) => getTypographyStyles(variant)};
   
   color: ${({ color, theme }) =>
-    color ? theme.color.text[color] || color : theme.color.text.primary
+    color ? theme.color.text[color] || color : 'currentColor'
 };
   
   text-align: ${({ align = 'left' }) => align};

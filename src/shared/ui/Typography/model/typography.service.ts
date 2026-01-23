@@ -54,7 +54,7 @@ export const getTypographyStyles = (variant: TypographyVariant) => {
     `,
     subtitle1: css`
       font-style: normal;
-      font-weight: 500;
+      font-weight: 700;
       font-size: 16px;
       line-height: 16px;
     `,
@@ -85,9 +85,8 @@ export const getTypographyStyles = (variant: TypographyVariant) => {
     overline: css`
       font-style: normal;
       font-weight: 400;
-      font-size: 10px;
-      line-height: 10px;
-      text-transform: uppercase;
+      font-size: 12px;
+      line-height: 20px;
     `,
   };
 

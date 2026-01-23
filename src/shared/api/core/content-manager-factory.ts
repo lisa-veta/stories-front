@@ -1,4 +1,3 @@
-// shared/api/core/content-manager-factory.ts
 import type {
   Banner,
   BannerPreview,

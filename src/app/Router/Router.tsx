@@ -8,6 +8,7 @@ import {
 import { ROUTES } from './routes';
 import { AccountPage } from '@pages/AccountPage';
 import { Layout } from '@widgets/Layout';
+import { EditorPage } from '@pages/EditorPage';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: ROUTES.login,
         element: <AccountPage />,
+      },
+      {
+        path: ROUTES.edit,
+        element: <EditorPage />,
       },
     ],
   },

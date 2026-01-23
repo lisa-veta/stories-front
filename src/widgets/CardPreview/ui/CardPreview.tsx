@@ -5,6 +5,8 @@ import { Button } from '@shared/ui/Button';
 import { BasketIcon, CalendarIcon, EditIcon, StatisticsIcon } from '@shared/ui/Icons';
 import { formatDate } from '@shared/lib/date';
 import { Typography } from '@shared/ui/Typography';
+import { ROUTES } from '@app/Router/routes.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface CardPreviewProps {
   id: number
@@ -27,6 +29,7 @@ export const CardPreview = ({
   preview_url,
 } : CardPreviewProps) => {
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const getStatusLabel = (status: string) => {
     const statusMap = {
@@ -44,6 +47,11 @@ export const CardPreview = ({
       'archived': theme.color.orange,
     };
     return colorMap[status] || theme.color.white;
+  };
+
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Останавливаем всплытие, чтобы не срабатывал клик по карточке
+    navigate(`${ROUTES.edit}`);
   };
 
   return (
@@ -74,9 +82,11 @@ export const CardPreview = ({
           </SC.leftContainer>
         </SC.InfoContainer>
         <SC.Container>
-          <Button variant={'secondary'}>
+          <Button variant={'secondary'} onClick={handleEditClick}>
             <EditIcon/>
-            Редактировать
+            <Typography >
+              Редактировать
+            </Typography>
           </Button>
           <Button variant={'secondary'} width={'auto'}>
             <StatisticsIcon color={theme.color.background.primary}/>

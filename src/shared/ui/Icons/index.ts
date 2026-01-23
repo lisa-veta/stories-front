@@ -1,3 +1,4 @@
+export { Arrow as ArrowIcon } from './Arrow';
 export { Banner as BannerIcon } from './Banner';
 export { Story as StoryIcon } from './Story';
 export { OnboardingStory as OnboardingStoryIcon } from './OnboardingStory';
