@@ -99,7 +99,7 @@ export interface OnboardingStoryPreview extends ContentPreview {
 
 export interface BannerPreview extends ContentPreview {
   actionText?: string;
-  url?: string;
+  button_url?: string;
   color?: string;
   preview_url: string;
 }
@@ -112,6 +112,21 @@ export interface RunningLinePreview extends ContentPreview {
 export interface StockPreview extends ContentPreview {
   description: string;
   icon?: string;
+  short_title?: string;
+}
+
+export interface Stock extends StockPreview {
+  bottom_sheet_description?: string;
+  hide_text_on_card: boolean;
+
+  button_text?: string;
+  button_url?: string;
+  button_target_action?: string;
+
+  backgroundImage?: string;
+  bottomSheetImage?: string;
+
+  filter?: Filter;
 }
 
 export interface BottomSheetPreview extends ContentPreview {
@@ -146,15 +161,20 @@ export interface Banner extends BannerPreview {
   simplifiedImage?: string;
   tag_id?: number;
   filter?: Filter;
+  screens?: string[];
 }
+
+export interface RunningLineButton {
+  text: string;
+  action: string;
+  url: string;
+}
+
 
 export interface RunningLine extends RunningLinePreview {
   filter?: Filter;
-  button?: {
-    text: string;
-    action: string;
-    url: string;
-  };
+  button?: RunningLineButton;
+  screens?: string[];
 }
 
 export interface Stock extends StockPreview {
@@ -169,10 +189,11 @@ export interface Stock extends StockPreview {
 }
 
 export interface BottomSheet extends BottomSheetPreview {
-  button_target_action?: string;
+  button_target_action: string;
   button_url?: string;
-  image?: string;
   filter?: Filter;
+  image: string;
+  screens?: string[];
 }
 
 export interface Filter {
@@ -180,5 +201,41 @@ export interface Filter {
   has_isbox: boolean;
   has_no_isbox: boolean;
   has_beward: boolean;
-  // ...
+  has_intercom: boolean;
+  has_no_intercom: boolean;
+  has_ktv: boolean;
+  has_no_ktv: boolean;
+
+  has_firm_tariff?: boolean;
+  has_old_personal_tariff?: boolean;
+  has_other_personal_tariff?: boolean;
+
+  for_ios_platform?: boolean;
+  for_android_platform?: boolean;
+
+  has_purchases?: boolean;
+  has_gift?: boolean;
+  has_rent?: boolean;
+  has_no_netobject?: boolean;
+
+  has_cctv?: boolean;
+  has_mkd_video?: boolean;
+  has_no_video?: boolean;
+
+  content_category?: string;
+  debt_type?: string;
+  versionFrom?: string;
+  versionTo?: string;
+
+  targetUserGroups?: string[];
+  geoAreaIDs?: number[];
+  tariffs?: number[];
+  userGroups?: number[];
+  smartYardTariffs?: number[];
+  netobjects?: number[];
+  customGroupId?: number;
+
+  customGroupName?: string;
+  geoArea?: string[];
+  tariffNames?: string[];
 }

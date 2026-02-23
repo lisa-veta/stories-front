@@ -87,6 +87,7 @@ export const AccountPage = () => {
                   unpublish_at={item.unpublish_at}
                   author={item.created_by.username}
                   status={item.status}
+                  type={activeTab}
                   {...(item.preview_url && { preview_url: item.preview_url })}
                 />
               ))}

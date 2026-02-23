@@ -1,3 +1,4 @@
+// widgets/SettingsPanel/ui/SettingsPanel.tsx
 import * as SC from './SettingsPanel.styles.ts';
 import { ArrowIcon, PlusIcon } from '@shared/ui/Icons';
 import { Button } from '@shared/ui/Button';
@@ -5,26 +6,66 @@ import { useState } from 'react';
 import { CheckboxItem } from '@shared/ui/Checkbox/ui/CheckboxItem.tsx';
 import { ColorPickerItem } from '@shared/ui/ColorPicker';
 import { Typography } from '@shared/ui/Typography';
-import { CustomSelect, type CustomSelectOption } from '@shared/ui/Select/ui/MultipleSelect';
+import { CustomSelect } from '@shared/ui/Select/ui/MultipleSelect';
 import { CustomInput } from '@shared/ui/CustomInput';
+import type { SettingsPanelConfig } from '@shared/config/types';
 
-export const SettingsPanel = () => {
+interface SettingsPanelProps {
+  config: SettingsPanelConfig;
+  // TODO: добавить пропсы для данных формы и обработчиков
+}
+
+export const SettingsPanel = ({ config }: SettingsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const statusOptions: CustomSelectOption[] = [
-    { value: 'draft', label: 'Черновик' },
-    { value: 'active', label: 'Активно' },
-    { value: 'archived', label: 'Архив' },
-  ];
+  const renderFormItem = (item: any) => {
+    switch (item.component) {
+    case 'Input':
+      return (
+        <CustomInput
+          placeholder={item.placeholder}
+          type={item.type}
+          // TODO: добавить value и onChange
+        />
+      );
+
+    case 'Select':
+      return (
+        <CustomSelect
+          options={item.options || []}
+          // TODO: добавить value и onChange
+        />
+      );
+
+    case 'ColorPicker':
+      return (
+        <ColorPickerItem
+          // TODO: добавить value и onChange
+        />
+      );
+
+    case 'Checkbox':
+      return (
+        <CheckboxItem
+          text={item.title}
+          // TODO: добавить checked и onChange
+        />
+      );
+
+    default:
+      return <div>Неизвестный компонент: {item.component}</div>;
+    }
+  };
+
   return (
     <SC.Container>
       <SC.Title onClick={toggleExpand}>
         <Typography variant={'subtitle1'}>
-          Заголовок
+          {config.title}
         </Typography>
         <SC.ArrowIconWrapper $isExpanded={isExpanded}>
           <ArrowIcon />
@@ -32,38 +73,22 @@ export const SettingsPanel = () => {
       </SC.Title>
       <SC.Content $isExpanded={isExpanded}>
         <SC.ElementsWrapper>
-          <SC.ElementWrapper>
-            <Typography variant={'overline'}>
-              Ляля
-            </Typography>
-            <CheckboxItem text={'lala'}/>
-          </SC.ElementWrapper>
-          <SC.ElementWrapper>
-            <Typography variant={'overline'}>
-              Ляля
-            </Typography>
-            <ColorPickerItem/>
-          </SC.ElementWrapper>
-          <SC.ElementWrapper>
-            <Typography variant={'overline'}>
-              Ляля
-            </Typography>
-            <CustomSelect
-              options={statusOptions}
-            />
-          </SC.ElementWrapper>
-          <SC.ElementWrapper>
-            <Typography variant={'overline'}>
-              Ляля
-            </Typography>
-            <CustomInput
-            />
-          </SC.ElementWrapper>
+          {config.items.map((item, index) => (
+            <SC.ElementWrapper key={index}>
+              <Typography variant={'overline'}>
+                {item.title}
+                {item.required && <span style={{ color: 'red' }}> *</span>}
+              </Typography>
+              {renderFormItem(item)}
+            </SC.ElementWrapper>
+          ))}
         </SC.ElementsWrapper>
-        <Button>
-          <PlusIcon />
-          Кнопка
-        </Button>
+        {config.buttonText && (
+          <Button>
+            <PlusIcon />
+            {config.buttonText}
+          </Button>
+        )}
       </SC.Content>
     </SC.Container>
   );

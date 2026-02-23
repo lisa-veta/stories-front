@@ -1,7 +1,6 @@
 import type { Story } from '@shared/api';
 import { mockStories } from '@mocks/data/content/story/story.ts';
 
-// Для детальной страницы - используем полный Story
 export const mockStoryDetail: Story = {
   id: 1,
   title: 'Новогодняя акция 2024',

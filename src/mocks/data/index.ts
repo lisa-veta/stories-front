@@ -1,7 +1,11 @@
 export { mockBanners } from './content/banner/banner';
+export { mockBannerDetails } from './content/banner/banner-detail';
 export { mockBottomSheets } from './content/bottom-sheets/bottomSheet';
+export { mockBottomSheetsDetail } from './content/bottom-sheets/bottomSheet-detail';
 export { mockRunningLines } from './content/running-line/runningLine';
+export { mockRunningLinesDetail } from './content/running-line/runningLine-detail';
 export { mockStocks } from './content/stocks/stock';
+export { mockStocksDetail } from './content/stocks/stock-detail';
 export { mockStories, mockStoryDetails } from './content/story/story';
 export { mockStoryDetail } from './content/story/stories-detail';
 export { mockUser, mockLoginResponse } from './auth/auth';

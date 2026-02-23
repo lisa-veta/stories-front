@@ -17,6 +17,7 @@ interface CardPreviewProps {
   image?: string;
   status: 'draft' | 'active' | 'archived';
   preview_url?: string;
+  type: string,
 }
 
 export const CardPreview = ({
@@ -27,6 +28,7 @@ export const CardPreview = ({
   author,
   status,
   preview_url,
+  type,
 } : CardPreviewProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -50,8 +52,8 @@ export const CardPreview = ({
   };
 
   const handleEditClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Останавливаем всплытие, чтобы не срабатывал клик по карточке
-    navigate(`${ROUTES.edit}`);
+    e.stopPropagation();
+    navigate(`${ROUTES.edit}?id=${id}&type=${type}`);
   };
 
   return (
