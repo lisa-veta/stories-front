@@ -5,4 +5,4 @@ export const formatDate = (dateString: string): string => {
   const year = date.getFullYear().toString().slice(-2);
 
   return `${day}.${month}.${year}`;
-}
+};

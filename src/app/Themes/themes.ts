@@ -73,3 +73,41 @@ export const lightTheme: Theme = {
     purple: '#BAA6FF',
   },
 };
+
+export const darkTheme: Theme = {
+  color: {
+    text: {
+      primary: '#FFFFFF',
+      secondary: '#1C1C1C',
+      subtitle: 'rgba(28, 28, 28, 0.4)',
+      body: 'rgba(0, 0, 0, 0.6)',
+    },
+    background: {
+      primary: '#0088FF',
+      secondary: '#0067bf',
+      default: '#222222',
+      paper: '#252525',
+      edit: '#333333',
+      active: '#333333',
+      gray25: 'rgba(0,0,0,0.25)',
+      gray50: 'rgba(0,0,0,0.50)',
+      gray90: 'rgba(0,0,0,0.9)',
+      gray05: 'rgba(0,0,0,0.5)',
+      banner: 'rgba(219, 213, 255, 0.5)',
+    },
+    icon: {
+      primary: '#FFFFFF',
+      secondary: 'rgba(0, 0, 0, 0.6)',
+    },
+    border: {
+      primary: 'rgba(28, 28, 28, 0.1)',
+    },
+    white: '#FFF',
+    black: '#000',
+    red: '#FF4A4A',
+    green: '#89FF57',
+    orange: '#FFAA48',
+    purple: '#BAA6FF',
+  },
+};
+
