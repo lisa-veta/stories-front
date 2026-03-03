@@ -14,7 +14,6 @@ import {
 import { CreateTab } from './CreateTab/CreateTab';
 import { SettingsTab } from './SettingsTab/SettingsTab';
 import { PreviewTab } from './PreviewTab/PreviewTab';
-import { useTheme } from 'styled-components';
 
 const createTabConfigs: Record<string, any> = {
   stories: storyConfig.createTab,
@@ -27,7 +26,6 @@ const createTabConfigs: Record<string, any> = {
 
 export const EditorPage = () => {
   const { id, type } = useQueryParams();
-  const theme = useTheme();
 
   const createTabConfig = type ? createTabConfigs[type] : null;
   const settingsTabs = commonSettingsConfig.settingsTab;

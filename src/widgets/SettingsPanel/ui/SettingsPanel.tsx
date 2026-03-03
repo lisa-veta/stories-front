@@ -12,12 +12,21 @@ import type { SettingsPanelConfig } from '@shared/config/types';
 
 interface SettingsPanelProps {
   config: SettingsPanelConfig;
-  // TODO: добавить пропсы для данных формы и обработчиков
+  onImageUpload?: (file: File) => void;
 }
 
-export const SettingsPanel = ({ config }: SettingsPanelProps) => {
+export const SettingsPanel = ({ config, onImageUpload }: SettingsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = e.target.files?.[0];
+    if (file && onImageUpload) {
+      onImageUpload(file);
+    }
+  };
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -84,10 +93,20 @@ export const SettingsPanel = ({ config }: SettingsPanelProps) => {
           ))}
         </SC.ElementsWrapper>
         {config.buttonText && (
-          <Button>
-            <PlusIcon />
-            {config.buttonText}
-          </Button>
+          <>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+            />
+
+            <Button onClick={() => fileInputRef.current?.click()}>
+              <PlusIcon />
+              {config.buttonText}
+            </Button>
+          </>
         )}
       </SC.Content>
     </SC.Container>

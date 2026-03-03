@@ -13,6 +13,7 @@ export interface SettingsPanelConfig {
   title: string;
   items: ConfigItem[];
   buttonText?: string;
+  isImageUpload: boolean,
 }
 
 export interface ContentTypeConfig {

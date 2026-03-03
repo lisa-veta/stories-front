@@ -13,7 +13,8 @@ export const storyConfig: ContentTypeConfig = {
           placeholder: "Введите короткий заголовок"
         }
       ],
-      buttonText: "Загрузить превью"
+      buttonText: "Загрузить превью",
+      isImageUpload: true,
     },
     {
       title: "Обложка",
@@ -29,7 +30,8 @@ export const storyConfig: ContentTypeConfig = {
           defaultValue: "none"
         }
       ],
-      buttonText: "Загрузить изображение"
+      buttonText: "Загрузить изображение",
+      isImageUpload: true,
     },
     {
       title: "Заголовок",

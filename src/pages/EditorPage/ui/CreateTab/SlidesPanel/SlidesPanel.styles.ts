@@ -53,8 +53,8 @@ export const SlideLabel = styled.div`
 
 export const DeleteButton = styled.button`
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 15px;
+    right: 20px;
 
     width: 26px;
     height: 26px;
