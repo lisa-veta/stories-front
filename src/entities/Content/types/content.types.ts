@@ -20,7 +20,9 @@ export interface ContentFilters {
 
 export interface ContentSchema {
   banners: EntityState<Banner, string>;
-  stories: EntityState<Story, string>;
+  stories: EntityState<Story, string> & {
+      editingStory: Story | null;
+  };
   stocks: EntityState<Stock, string>;
   runningLines: EntityState<RunningLine, string>;
   bottomSheets: EntityState<BottomSheet, string>;

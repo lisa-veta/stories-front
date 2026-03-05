@@ -58,7 +58,6 @@ export interface Story extends Omit<StoryPreview, 'slides_count'> {
 
   effect_id?: number;
   filter_id?: number;
-
   slides: Slide[];
 }
 

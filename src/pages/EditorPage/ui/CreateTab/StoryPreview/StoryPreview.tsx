@@ -1,20 +1,27 @@
 import * as SC from './StoryPreview.styles';
-import type { Slide } from '@pages/EditorPage/ui/CreateTab/CreateTab';
+import type { Slide } from '@shared/api';
 
 interface StoryPreviewProps {
-    selectedSlideId: number | 'cover';
+    selectedSlideId: number | null;
     slides: Slide[];
+    coverImage?: string;
     onEditImage: () => void;
 }
 
 export const StoryPreview = ({
   selectedSlideId,
   slides,
+  coverImage,
   onEditImage,
 }: StoryPreviewProps) => {
   const activeSlide = slides.find(
     s => s.id === selectedSlideId,
   );
+
+  const backgroundImage =
+        selectedSlideId === null
+          ? coverImage
+          : activeSlide?.image_url;
 
   return (
     <SC.PhoneFrame>
@@ -22,18 +29,18 @@ export const StoryPreview = ({
         <SC.PreviewWrapper>
           <SC.PreviewContent
             style={{
-              backgroundImage: activeSlide?.image
-                ? `url(${activeSlide.image})`
+              backgroundImage: backgroundImage
+                ? `url(${backgroundImage})`
                 : undefined,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
           />
 
-          {activeSlide?.image && (
+          {backgroundImage && (
             <SC.EditOverlay>
               <SC.EditButton onClick={onEditImage}>
-                              ✏
+                                ✏
               </SC.EditButton>
             </SC.EditOverlay>
           )}

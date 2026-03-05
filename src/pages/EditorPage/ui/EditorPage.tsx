@@ -14,6 +14,8 @@ import {
 import { CreateTab } from './CreateTab/CreateTab';
 import { SettingsTab } from './SettingsTab/SettingsTab';
 import { PreviewTab } from './PreviewTab/PreviewTab';
+import { useDispatch } from 'react-redux';
+import { storyActions } from '@entities/Stories/model/slice/story.slice';
 
 const createTabConfigs: Record<string, any> = {
   stories: storyConfig.createTab,
@@ -26,6 +28,7 @@ const createTabConfigs: Record<string, any> = {
 
 export const EditorPage = () => {
   const { id, type } = useQueryParams();
+  const dispatch = useDispatch();
 
   const createTabConfig = type ? createTabConfigs[type] : null;
   const settingsTabs = commonSettingsConfig.settingsTab;
@@ -35,9 +38,21 @@ export const EditorPage = () => {
       const fetchData = async () => {
         try {
           switch (type) {
-          case 'story':
-            await apiContainer.stories.getById(id);
+          case 'stories': {
+            const story = await apiContainer.stories.getById(id);
+
+            dispatch(storyActions.storyAdd(story));
+
+            const saved = localStorage.getItem('editingStory');
+
+            if (saved) {
+              dispatch(storyActions.setEditingStory(JSON.parse(saved)));
+            } else {
+              dispatch(storyActions.setEditingStory(story));
+            }
+
             break;
+          }
           case 'banner':
             await apiContainer.banners.getById(id);
             break;

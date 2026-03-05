@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import * as SC from './SlidesPanel.styles';
 import { Typography } from '@shared/ui/Typography';
 
@@ -12,7 +12,6 @@ import {
 } from '@dnd-kit/core';
 
 import {
-  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
   useSortable,
@@ -22,9 +21,15 @@ import { CSS } from '@dnd-kit/utilities';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { Button } from '@shared/ui/Button';
 import { BasketIcon, PlusIcon } from '@shared/ui/Icons';
+import type { Slide } from '@shared/api';
 
-interface Slide {
-    id: number;
+import { useDispatch } from 'react-redux';
+import { storyActions } from '@entities/Stories/model/slice/story.slice';
+
+interface SlidesPanelProps {
+    slides: Slide[];
+    selectedSlideId: number | null;
+    onSlideSelect: (id: number) => void;
 }
 
 const SortableSlide = ({
@@ -36,7 +41,7 @@ const SortableSlide = ({
 }: {
     slide: Slide;
     index: number;
-    selectedId: number | 'cover';
+    selectedId: number | null;
     onSelect: (id: number) => void;
     onDelete: (id: number) => void;
 }) => {
@@ -82,16 +87,18 @@ const SortableSlide = ({
           onDelete(slide.id);
         }}
       >
-        <BasketIcon/>
+        <BasketIcon />
       </SC.DeleteButton>
     </SC.SlideCard>
   );
 };
 
-export const SlidesPanel = () => {
-  const [slides, setSlides] = useState<Slide[]>([{ id: 1 }]);
-  const [selected, setSelected] = useState<number | 'cover'>('cover');
-
+export const SlidesPanel = ({
+  slides,
+  selectedSlideId,
+  onSlideSelect,
+}: SlidesPanelProps) => {
+  const dispatch = useDispatch();
   const sensors = useSensors(useSensor(PointerSensor));
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -101,36 +108,35 @@ export const SlidesPanel = () => {
     const oldIndex = slides.findIndex(s => s.id === active.id);
     const newIndex = slides.findIndex(s => s.id === over.id);
 
-    setSlides(arrayMove(slides, oldIndex, newIndex));
+    dispatch(
+      storyActions.reorderSlides({
+        oldIndex,
+        newIndex,
+      }),
+    );
   };
 
   const handleAddSlide = () => {
-    const newId = Date.now();
-    setSlides(prev => [...prev, { id: newId }]);
-    setSelected(newId);
+    dispatch(storyActions.addSlide());
   };
 
   const handleDeleteSlide = (id: number) => {
-    setSlides(prev => prev.filter(s => s.id !== id));
-    setSelected('cover');
+    dispatch(storyActions.deleteSlide(id));
   };
 
   return (
     <SC.Container>
       <Typography variant="subtitle1">Истории</Typography>
-
-      {/* Обложка */}
       <SC.SlideCard
-        $selected={selected === 'cover'}
-        onClick={() => setSelected('cover')}
+        $selected={selectedSlideId === null}
+        onClick={() => onSlideSelect(null)}
       >
         <SC.SlideLabel>
           <Typography variant="subtitle2">
-                        Обложка
+                    Обложка
           </Typography>
         </SC.SlideLabel>
       </SC.SlideCard>
-
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -147,19 +153,18 @@ export const SlidesPanel = () => {
                 key={slide.id}
                 slide={slide}
                 index={index}
-                selectedId={selected}
-                onSelect={setSelected}
+                selectedId={selectedSlideId}
+                onSelect={onSlideSelect}
                 onDelete={handleDeleteSlide}
               />
             ))}
           </SC.SlidesList>
         </SortableContext>
       </DndContext>
+
       <Button onClick={handleAddSlide}>
-        <PlusIcon/>
-        <Typography>
-           Добавить
-        </Typography>
+        <PlusIcon />
+        <Typography>Добавить</Typography>
       </Button>
     </SC.Container>
   );

@@ -2,8 +2,11 @@ import * as SC from './CreateTab.styles';
 import { SettingsPanel } from '@widgets/SettingsPanel';
 import { StoryPreview } from './StoryPreview/StoryPreview';
 import { SlidesPanel } from './SlidesPanel/SlidesPanel';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CropModal } from '@pages/EditorPage/ui/CreateTab/CropModal/CropModal';
+import { useSelector, useDispatch } from 'react-redux';
+import type { StateSchema } from '@app/StoreProvider/config/StateShema';
+import { storyActions } from '@entities/Stories/model/slice/story.slice';
 
 interface CreateTabProps {
     config: any[];
@@ -15,14 +18,16 @@ export interface Slide {
 }
 
 export const CreateTab = ({ config }: CreateTabProps) => {
-  const [selectedSlideId, setSelectedSlideId] = useState<number | 'cover'>('cover');
-  const [slides, setSlides] = useState<Slide[]>([
-    { id: 'cover' },
-    { id: 1 },
-  ]);
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [isCropOpen, setIsCropOpen] = useState(false);
 
+  const dispatch = useDispatch();
+
+  const editingStory = useSelector(
+    (state: StateSchema) => state.content.stories.editingStory,
+  );
+
+  const [selectedSlideId, setSelectedSlideId] = useState<number | null>(null);
   const handleImageUpload = (file: File) => {
     const reader = new FileReader();
 
@@ -35,14 +40,33 @@ export const CreateTab = ({ config }: CreateTabProps) => {
   };
 
   const handleCropSave = (croppedImage: string) => {
-    setSlides(prev =>
-      prev.map(slide =>
-        slide.id === selectedSlideId
-          ? { ...slide, image: croppedImage }
-          : slide,
-      ),
+    if (selectedSlideId === null) {
+      dispatch(storyActions.updateCoverImage(croppedImage));
+      return;
+    }
+
+    dispatch(
+      storyActions.updateSlideImage({
+        slideId: selectedSlideId,
+        image: croppedImage,
+      }),
     );
   };
+
+  useEffect(() => {
+    if (editingStory?.slides.length && !selectedSlideId) {
+      setSelectedSlideId(editingStory.slides[0].id);
+    }
+  }, [editingStory]);
+
+  useEffect(() => {
+    if (editingStory) {
+      localStorage.setItem(
+        'editingStory',
+        JSON.stringify(editingStory),
+      );
+    }
+  }, [editingStory]);
 
   return (
     <SC.Container>
@@ -59,19 +83,32 @@ export const CreateTab = ({ config }: CreateTabProps) => {
       <SC.CenterPanel>
         <StoryPreview
           selectedSlideId={selectedSlideId}
-          slides={slides}
+          slides={editingStory?.slides ?? []}
+          coverImage={editingStory?.previewUrl}
           onEditImage={() => {
-            const active = slides.find(s => s.id === selectedSlideId);
-            if (active?.image) {
-              setOriginalImage(active.image);
+            if (selectedSlideId === null) {
+              if (editingStory?.previewUrl) {
+                setOriginalImage(editingStory.previewUrl);
+                setIsCropOpen(true);
+              }
+              return;
+            }
+
+            const active = editingStory?.slides.find(
+              s => s.id === selectedSlideId,
+            );
+
+            if (active?.image_url) {
+              setOriginalImage(active.image_url);
               setIsCropOpen(true);
             }
-          }}/>
+          }}
+        />
       </SC.CenterPanel>
 
       <SC.RightPanel>
         <SlidesPanel
-          slides={slides.filter(s => s.id !== 'cover')}
+          slides={editingStory?.slides ?? []}
           selectedSlideId={selectedSlideId}
           onSlideSelect={setSelectedSlideId}
         />

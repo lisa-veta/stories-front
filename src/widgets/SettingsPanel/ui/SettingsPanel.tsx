@@ -2,7 +2,7 @@
 import * as SC from './SettingsPanel.styles.ts';
 import { ArrowIcon, PlusIcon } from '@shared/ui/Icons';
 import { Button } from '@shared/ui/Button';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { CheckboxItem } from '@shared/ui/Checkbox/ui/CheckboxItem.tsx';
 import { ColorPickerItem } from '@shared/ui/ColorPicker';
 import { Typography } from '@shared/ui/Typography';
