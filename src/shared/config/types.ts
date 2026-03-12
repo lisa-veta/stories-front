@@ -11,6 +11,7 @@ export interface ConfigItem {
 
 export interface SettingsPanelConfig {
   title: string;
+  type?: string;
   items: ConfigItem[];
   buttonText?: string;
   isImageUpload: boolean,

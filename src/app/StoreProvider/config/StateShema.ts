@@ -7,7 +7,11 @@ export interface StateSchema {
 export const getInitialState = (): StateSchema => ({
   content: {
     banners: { ids: [], entities: {} },
-    stories: { ids: [], entities: {} },
+    stories: {
+      ids: [],
+      entities: {},
+      editingStory: null,
+    },
     stocks: { ids: [], entities: {} },
     runningLines: { ids: [], entities: {} },
     bottomSheets: { ids: [], entities: {} },
