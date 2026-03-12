@@ -13,9 +13,10 @@ import type { SettingsPanelConfig } from '@shared/config/types';
 interface SettingsPanelProps {
   config: SettingsPanelConfig;
   onImageUpload?: (file: File) => void;
+  onAdd?: () => void;
 }
 
-export const SettingsPanel = ({ config, onImageUpload }: SettingsPanelProps) => {
+export const SettingsPanel = ({ config, onImageUpload, onAdd }: SettingsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -102,7 +103,15 @@ export const SettingsPanel = ({ config, onImageUpload }: SettingsPanelProps) => 
               onChange={handleFileChange}
             />
 
-            <Button onClick={() => fileInputRef.current?.click()}>
+            <Button
+              onClick={() => {
+                if (config.isImageUpload) {
+                  fileInputRef.current?.click();
+                } else {
+                  onAdd?.();
+                }
+              }}
+            >
               <PlusIcon />
               {config.buttonText}
             </Button>

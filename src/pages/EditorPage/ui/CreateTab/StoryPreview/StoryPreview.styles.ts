@@ -19,9 +19,7 @@ export const PhoneScreen = styled.div`
 export const PreviewContent = styled.div`
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     background-color: #f5f5f5;
 `;
 

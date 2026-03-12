@@ -68,6 +68,16 @@ export const CreateTab = ({ config }: CreateTabProps) => {
     }
   }, [editingStory]);
 
+  const handleAddText = () => {
+    if(!selectedSlideId) {return;}
+
+    dispatch(
+      storyActions.addTextElement({
+        slideId:selectedSlideId,
+      }),
+    );
+  };
+
   return (
     <SC.Container>
       <SC.LeftPanel>
@@ -76,6 +86,11 @@ export const CreateTab = ({ config }: CreateTabProps) => {
             key={`create-${index}`}
             config={panelConfig}
             onImageUpload={handleImageUpload}
+            onAdd={
+              panelConfig.title === 'Текст'
+                ? handleAddText
+                : undefined
+            }
           />
         ))}
       </SC.LeftPanel>

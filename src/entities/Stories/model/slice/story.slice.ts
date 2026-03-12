@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { storyAdapter } from '@entities/Stories/model/adapter/story.adapter';
-import type { Story } from '@shared/api';
+import type { Story, TextElement } from '@shared/api';
 
 
 const initialState = storyAdapter.getInitialState<{
@@ -23,9 +23,7 @@ export const storySlice = createSlice({
         story_id: state.editingStory.id,
         sort: state.editingStory.slides.length,
 
-        text: '',
-        textPosition: 'middle',
-        textClass: '',
+        textElements: [],
 
         isCtaVisible: false,
         isCallTaskVisible: false,
@@ -104,6 +102,72 @@ export const storySlice = createSlice({
       if (slide) {
         slide.image_url = action.payload.image;
       }
+    },
+
+    addTextElement(
+      state,
+      action: PayloadAction<{ slideId: number }>,
+    ) {
+      const slide = state.editingStory?.slides.find(
+        s => s.id === action.payload.slideId,
+      );
+
+      if (!slide) {return;}
+      if (!slide.textElements) {
+        slide.textElements = [];
+      }
+      slide.textElements.push({
+        id: Date.now().toString(),
+        text: 'Введите текст',
+        position: 'custom',
+
+        xPercent: 0,
+        yPercent: 0.5,
+
+        style: {
+          textColor: '#000000',
+          backgroundColor: 'transparent',
+        },
+      });
+    },
+
+    updateTextElement(
+      state,
+      action: PayloadAction<{
+              slideId: number
+              elementId: string
+              data: Partial<TextElement>
+          }>,
+    ) {
+      const slide = state.editingStory?.slides.find(
+        s => s.id === action.payload.slideId,
+      );
+
+      const element = slide?.textElements.find(
+        e => e.id === action.payload.elementId,
+      );
+
+      if (element) {
+        Object.assign(element, action.payload.data);
+      }
+    },
+
+    deleteTextElement(
+      state,
+      action: PayloadAction<{
+              slideId: number
+              elementId: string
+          }>,
+    ) {
+      const slide = state.editingStory?.slides.find(
+        s => s.id === action.payload.slideId,
+      );
+
+      if (!slide) {return;}
+
+      slide.textElements = slide.textElements.filter(
+        e => e.id !== action.payload.elementId,
+      );
     },
   },
 });

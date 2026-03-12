@@ -61,22 +61,34 @@ export interface Story extends Omit<StoryPreview, 'slides_count'> {
   slides: Slide[];
 }
 
+export interface TextElement {
+    id: string
+    text: string
+
+    position: 'top' | 'center' | 'bottom' | 'custom'
+
+    xPercent: number
+    yPercent: number
+
+    style: {
+        textColor: string
+        backgroundColor: string
+    }
+}
+
 export interface Slide {
-  id: number;
-  story_id: number;
-  sort: number;
+    id: number
+    story_id: number
+    sort: number
 
-  text?: string;
-  textPosition?: 'top' | 'middle' | 'bottom';
-  textClass?: string;
+    textElements: TextElement[]
 
-  isCtaVisible: boolean;
-  isCallTaskVisible: boolean;
+    isCtaVisible: boolean
+    isCallTaskVisible: boolean
+    useVideo: boolean
 
-  useVideo: boolean;
-
-  image_url?: string;
-  video_url?: string;
+    image_url?: string
+    video_url?: string
 }
 
 export interface CreateStoryData extends Omit<Story,
