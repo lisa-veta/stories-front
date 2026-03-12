@@ -11,6 +11,7 @@ interface StoryPreviewProps {
     slides: Slide[];
     coverImage?: string;
     onEditImage: () => void;
+    onTextSelect: (element: any | null) => void;
 }
 
 export const StoryPreview = ({
@@ -18,6 +19,7 @@ export const StoryPreview = ({
   slides,
   coverImage,
   onEditImage,
+  onTextSelect,
 }: StoryPreviewProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [selectedTextId, setSelectedTextId] = useState<string|null>(null);
@@ -80,7 +82,12 @@ export const StoryPreview = ({
                   slideId={activeSlide.id}
                   containerRef={containerRef}
                   selected={selectedTextId===el.id}
-                  onSelect={setSelectedTextId}
+                  onSelect={(id)=>{
+                    setSelectedTextId(id);
+
+                    const element = activeSlide?.textElements?.find(e => e.id === id);
+                    onTextSelect(element ?? null);
+                  }}
                 />
               ))}
             </SC.PreviewContent>

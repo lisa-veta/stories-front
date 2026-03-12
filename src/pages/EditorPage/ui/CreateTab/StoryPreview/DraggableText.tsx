@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { useDispatch } from 'react-redux';
@@ -9,12 +9,14 @@ import * as SC from './DraggableText.styles';
 export const DraggableText = ({
   element,
   slideId,
-  containerRef,
   selected,
   onSelect,
 }) => {
+
   const dispatch = useDispatch();
   const ref = useRef(null);
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: element.id,
@@ -32,28 +34,40 @@ export const DraggableText = ({
 
   return (
     <SC.Wrapper
-      ref={(node) => {
+      ref={(node)=>{
         setNodeRef(node);
-        ref.current = node;
+        ref.current=node;
       }}
+
       style={style}
       $selected={selected}
-      {...listeners}
-      {...attributes}
-      onClick={(e) => {
+
+      {...(!isEditing ? listeners : {})}
+      {...(!isEditing ? attributes : {})}
+
+      onClick={(e)=>{
         e.stopPropagation();
         onSelect(element.id);
       }}
     >
+
       <SC.Text
-        contentEditable
+        contentEditable={isEditing}
         suppressContentEditableWarning
-        onBlur={(e) => {
+
+        onDoubleClick={(e)=>{
+          e.stopPropagation();
+          setIsEditing(true);
+        }}
+
+        onBlur={(e)=>{
+          setIsEditing(false);
+
           dispatch(
             storyActions.updateTextElement({
               slideId,
               elementId: element.id,
-              data: { text: e.currentTarget.innerText },
+              data:{ text:e.currentTarget.innerText },
             }),
           );
         }}
@@ -61,10 +75,16 @@ export const DraggableText = ({
         {element.text}
       </SC.Text>
 
-      {selected && (
+      {selected && !isEditing && (
         <SC.DeleteButton
-          onClick={(e) => {
+
+          onMouseDown={(e)=>{
             e.stopPropagation();
+          }}
+
+          onClick={(e)=>{
+            e.stopPropagation();
+
             dispatch(
               storyActions.deleteTextElement({
                 slideId,
@@ -76,6 +96,7 @@ export const DraggableText = ({
                     ×
         </SC.DeleteButton>
       )}
+
     </SC.Wrapper>
   );
 };

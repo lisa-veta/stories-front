@@ -11,12 +11,14 @@ import { CustomInput } from '@shared/ui/CustomInput';
 import type { SettingsPanelConfig } from '@shared/config/types';
 
 interface SettingsPanelProps {
-  config: SettingsPanelConfig;
-  onImageUpload?: (file: File) => void;
-  onAdd?: () => void;
+    config: SettingsPanelConfig;
+    values?: Record<string, any>;
+    onChange?: (field: string, value: any) => void;
+    onImageUpload?: (file: File) => void;
+    onAdd?: () => void;
 }
 
-export const SettingsPanel = ({ config, onImageUpload, onAdd }: SettingsPanelProps) => {
+export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }: SettingsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -33,13 +35,24 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd }: SettingsPanelPro
   };
 
   const renderFormItem = (item: any) => {
+    const value = values?.[item.name];
+
     switch (item.component) {
     case 'Input':
       return (
         <CustomInput
+          value={value}
           placeholder={item.placeholder}
           type={item.type}
-          // TODO: добавить value и onChange
+          onChange={(e)=>onChange?.(item.name, e.target.value)}
+        />
+      );
+
+    case 'ColorPicker':
+      return (
+        <ColorPickerItem
+          value={value}
+          onChange={(color)=>onChange?.(item.name, color)}
         />
       );
 
@@ -51,23 +64,17 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd }: SettingsPanelPro
         />
       );
 
-    case 'ColorPicker':
-      return (
-        <ColorPickerItem
-          // TODO: добавить value и onChange
-        />
-      );
-
     case 'Checkbox':
       return (
         <CheckboxItem
           text={item.title}
-          // TODO: добавить checked и onChange
+          checked={value}
+          onChange={(v)=>onChange?.(item.name, v)}
         />
       );
 
     default:
-      return <div>Неизвестный компонент: {item.component}</div>;
+      return null;
     }
   };
 

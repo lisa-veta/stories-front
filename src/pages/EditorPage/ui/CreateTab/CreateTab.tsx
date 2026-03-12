@@ -27,6 +27,8 @@ export const CreateTab = ({ config }: CreateTabProps) => {
     (state: StateSchema) => state.content.stories.editingStory,
   );
 
+  const [selectedTextElement, setSelectedTextElement] = useState<any | null>(null);
+
   const [selectedSlideId, setSelectedSlideId] = useState<number | null>(null);
   const handleImageUpload = (file: File) => {
     const reader = new FileReader();
@@ -85,6 +87,29 @@ export const CreateTab = ({ config }: CreateTabProps) => {
           <SettingsPanel
             key={`create-${index}`}
             config={panelConfig}
+            values={{
+              text: selectedTextElement?.text,
+              textColor: selectedTextElement?.style?.textColor,
+            }}
+            onChange={(field, value) => {
+              if (!selectedTextElement || !selectedSlideId) {return;}
+
+              dispatch(
+                storyActions.updateTextElement({
+                  slideId: selectedSlideId,
+                  elementId: selectedTextElement.id,
+                  data:
+                                field === 'text'
+                                  ? { text: value }
+                                  : {
+                                    style: {
+                                      ...selectedTextElement.style,
+                                      textColor: value,
+                                    },
+                                  },
+                }),
+              );
+            }}
             onImageUpload={handleImageUpload}
             onAdd={
               panelConfig.title === 'Текст'
@@ -118,6 +143,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
               setIsCropOpen(true);
             }
           }}
+          onTextSelect={setSelectedTextElement}
         />
       </SC.CenterPanel>
 
