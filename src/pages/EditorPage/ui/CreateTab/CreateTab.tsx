@@ -27,9 +27,18 @@ export const CreateTab = ({ config }: CreateTabProps) => {
     (state: StateSchema) => state.content.stories.editingStory,
   );
 
-  const [selectedTextElement, setSelectedTextElement] = useState<any | null>(null);
-
   const [selectedSlideId, setSelectedSlideId] = useState<number | null>(null);
+
+  const [selectedTextElementId, setSelectedTextElementId] = useState<string | null>(null);
+  const activeSlide = editingStory?.slides?.find(
+    s => s.id === selectedSlideId,
+  );
+
+  const selectedTextElement =
+        activeSlide?.textElements?.find(
+          el => el.id === selectedTextElementId,
+        ) ?? null;
+
   const handleImageUpload = (file: File) => {
     const reader = new FileReader();
 
@@ -88,27 +97,35 @@ export const CreateTab = ({ config }: CreateTabProps) => {
             key={`create-${index}`}
             config={panelConfig}
             values={{
-              text: selectedTextElement?.text,
-              textColor: selectedTextElement?.style?.textColor,
+              slide: {
+                text: {
+                  text: selectedTextElement?.text ?? '',
+                  ...selectedTextElement?.style,
+                },
+              },
             }}
             onChange={(field, value) => {
+
               if (!selectedTextElement || !selectedSlideId) {return;}
+
+              const styleKey = field.split('.').pop();
 
               dispatch(
                 storyActions.updateTextElement({
                   slideId: selectedSlideId,
                   elementId: selectedTextElement.id,
                   data:
-                                field === 'text'
-                                  ? { text: value }
-                                  : {
-                                    style: {
-                                      ...selectedTextElement.style,
-                                      textColor: value,
-                                    },
-                                  },
+                            styleKey === 'text'
+                              ? { text: value }
+                              : {
+                                style: {
+                                  ...selectedTextElement.style,
+                                  [styleKey]: value,
+                                },
+                              },
                 }),
               );
+
             }}
             onImageUpload={handleImageUpload}
             onAdd={
@@ -143,7 +160,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
               setIsCropOpen(true);
             }
           }}
-          onTextSelect={setSelectedTextElement}
+          onTextSelect={setSelectedTextElementId}
         />
       </SC.CenterPanel>
 

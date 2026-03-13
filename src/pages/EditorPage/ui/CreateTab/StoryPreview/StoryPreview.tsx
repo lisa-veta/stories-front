@@ -11,7 +11,7 @@ interface StoryPreviewProps {
     slides: Slide[];
     coverImage?: string;
     onEditImage: () => void;
-    onTextSelect: (element: any | null) => void;
+    onTextSelect: (id: string | null) => void;
 }
 
 export const StoryPreview = ({
@@ -84,9 +84,7 @@ export const StoryPreview = ({
                   selected={selectedTextId===el.id}
                   onSelect={(id)=>{
                     setSelectedTextId(id);
-
-                    const element = activeSlide?.textElements?.find(e => e.id === id);
-                    onTextSelect(element ?? null);
+                    onTextSelect(id);
                   }}
                 />
               ))}

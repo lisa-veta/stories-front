@@ -18,6 +18,10 @@ interface SettingsPanelProps {
     onAdd?: () => void;
 }
 
+function getValueByPath(obj: any, path: string) {
+  return path.split('.').reduce((acc, key) => acc?.[key], obj);
+}
+
 export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }: SettingsPanelProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -35,8 +39,8 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }
   };
 
   const renderFormItem = (item: any) => {
-    const value = values?.[item.name];
-
+    const value = getValueByPath(values, item.name);
+    console.log(item.name, value);
     switch (item.component) {
     case 'Input':
       return (
