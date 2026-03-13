@@ -20,7 +20,7 @@ export const Text = styled.div`
 export const DeleteButton = styled.button`
   position: absolute;
   top: -10px;
-  right: -10px;
+  right: -0px;
 
   width: 20px;
   height: 20px;

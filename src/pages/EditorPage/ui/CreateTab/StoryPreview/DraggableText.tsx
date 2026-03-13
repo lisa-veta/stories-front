@@ -77,9 +77,9 @@ export const DraggableText = ({
 
       {selected && !isEditing && (
         <SC.DeleteButton
-
-          onMouseDown={(e)=>{
+          onPointerDown={(e)=>{
             e.stopPropagation();
+            e.preventDefault();
           }}
 
           onClick={(e)=>{
@@ -93,7 +93,7 @@ export const DraggableText = ({
             );
           }}
         >
-                    ×
+              ×
         </SC.DeleteButton>
       )}
 
