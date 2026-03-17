@@ -41,14 +41,14 @@ export const DraggableText = ({
 
       style={style}
       $selected={selected}
+      $isEditing={isEditing}
+
+      onPointerDown={()=>{
+        onSelect(element.id);
+      }}
 
       {...(!isEditing ? listeners : {})}
       {...(!isEditing ? attributes : {})}
-
-      onClick={(e)=>{
-        e.stopPropagation();
-        onSelect(element.id);
-      }}
     >
 
       <SC.Text
@@ -75,7 +75,7 @@ export const DraggableText = ({
         {element.text}
       </SC.Text>
 
-      {selected && !isEditing && (
+      {!isEditing && (
         <SC.DeleteButton
           onPointerDown={(e)=>{
             e.stopPropagation();

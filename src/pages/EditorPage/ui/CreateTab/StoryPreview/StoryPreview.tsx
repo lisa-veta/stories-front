@@ -74,13 +74,18 @@ export const StoryPreview = ({
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
+              onPointerDown={(e) => {
+                if (e.target === e.currentTarget) {
+                  onTextSelect(null);
+                  setSelectedTextId(null);
+                }
+              }}
             >
               {activeSlide?.textElements?.map(el=>(
                 <DraggableText
                   key={el.id}
                   element={el}
                   slideId={activeSlide.id}
-                  containerRef={containerRef}
                   selected={selectedTextId===el.id}
                   onSelect={(id)=>{
                     setSelectedTextId(id);
