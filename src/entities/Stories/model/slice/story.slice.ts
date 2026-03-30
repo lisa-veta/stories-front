@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { storyAdapter } from '@entities/Stories/model/adapter/story.adapter';
-import type { Story, TextElement } from '@shared/api';
+import type {Story, Element, ElementType} from '@shared/api';
 
 
 const initialState = storyAdapter.getInitialState<{
@@ -23,7 +23,7 @@ export const storySlice = createSlice({
         story_id: state.editingStory.id,
         sort: state.editingStory.slides.length,
 
-        textElements: [],
+        elements: [],
 
         isCtaVisible: false,
         isCallTaskVisible: false,
@@ -104,60 +104,64 @@ export const storySlice = createSlice({
       }
     },
 
-    addTextElement(
+    addElement(
       state,
-      action: PayloadAction<{ slideId: number }>,
+      action: PayloadAction<{ slideId: number; type: ElementType }>,
     ) {
       const slide = state.editingStory?.slides.find(
         s => s.id === action.payload.slideId,
       );
 
       if (!slide) {return;}
-      if (!slide.textElements) {
-        slide.textElements = [];
-      }
-      slide.textElements.push({
+
+      const base = {
         id: Date.now().toString(),
-        text: 'Введите текст',
-        position: 'custom',
-
-        xPercent: 0,
+        xPercent: 0.3,
         yPercent: 0.5,
-
+        content:
+                  action.payload.type === 'text' ? 'Введите текст' : 'Кнопка',
         style: {
-          textColor: '#000000',
-          backgroundColor: 'transparent',
+          textColor: '#000',
+          backgroundColor:
+                      action.payload.type === 'text'
+                        ? 'transparent'
+                        : '#007BFF',
+          borderRadius:
+                      action.payload.type === 'text' ? undefined : 8,
         },
+      };
+
+      slide.elements.push({
+        ...base,
+        type: action.payload.type,
+        link: '',
       });
     },
 
-    updateTextElement(
+    updateElement(
       state,
       action: PayloadAction<{
-              slideId: number
-              elementId: string
-              data: Partial<TextElement>
+              slideId: number;
+              elementId: string;
+              data: Partial<Element>;
           }>,
     ) {
       const slide = state.editingStory?.slides.find(
         s => s.id === action.payload.slideId,
       );
 
-      const element = slide?.textElements.find(
+      const el = slide?.elements.find(
         e => e.id === action.payload.elementId,
       );
 
-      if (element) {
-        Object.assign(element, action.payload.data);
+      if (el) {
+        Object.assign(el, action.payload.data);
       }
     },
 
-    deleteTextElement(
+    deleteElement(
       state,
-      action: PayloadAction<{
-              slideId: number
-              elementId: string
-          }>,
+      action: PayloadAction<{ slideId: number; elementId: string }>,
     ) {
       const slide = state.editingStory?.slides.find(
         s => s.id === action.payload.slideId,
@@ -165,7 +169,7 @@ export const storySlice = createSlice({
 
       if (!slide) {return;}
 
-      slide.textElements = slide.textElements.filter(
+      slide.elements = slide.elements.filter(
         e => e.id !== action.payload.elementId,
       );
     },

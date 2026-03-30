@@ -35,7 +35,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
   );
 
   const selectedTextElement =
-        activeSlide?.textElements?.find(
+        activeSlide?.elements?.find(
           el => el.id === selectedTextElementId,
         ) ?? null;
 
@@ -79,12 +79,13 @@ export const CreateTab = ({ config }: CreateTabProps) => {
     }
   }, [editingStory]);
 
-  const handleAddText = () => {
-    if(!selectedSlideId) {return;}
+  const handleAddElement = (type) => {
+    if (!selectedSlideId) {return;}
 
     dispatch(
-      storyActions.addTextElement({
-        slideId:selectedSlideId,
+      storyActions.addElement({
+        slideId: selectedSlideId,
+        type,
       }),
     );
   };
@@ -99,7 +100,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
             values={{
               slide: {
                 text: {
-                  text: selectedTextElement?.text ?? '',
+                  text: selectedTextElement?.content ?? '',
                   ...selectedTextElement?.style,
                 },
               },
@@ -111,12 +112,12 @@ export const CreateTab = ({ config }: CreateTabProps) => {
               const styleKey = field.split('.').pop();
 
               dispatch(
-                storyActions.updateTextElement({
+                storyActions.updateElement({
                   slideId: selectedSlideId,
                   elementId: selectedTextElement.id,
                   data:
                             styleKey === 'text'
-                              ? { text: value }
+                              ? { content: value }
                               : {
                                 style: {
                                   ...selectedTextElement.style,
@@ -130,8 +131,12 @@ export const CreateTab = ({ config }: CreateTabProps) => {
             onImageUpload={handleImageUpload}
             onAdd={
               panelConfig.title === 'Текст'
-                ? handleAddText
-                : undefined
+                ? () => handleAddElement('text')
+                : panelConfig.title === 'Кнопка действия'
+                  ? () => handleAddElement('actionButton')
+                  : panelConfig.title === 'Кнопка для звонка'
+                    ? () => handleAddElement('callButton')
+                    : undefined
             }
           />
         ))}

@@ -3,8 +3,8 @@ import type { Slide } from '@shared/api';
 import { DndContext } from '@dnd-kit/core';
 import { useDispatch } from 'react-redux';
 import { storyActions } from '@entities/Stories/model/slice/story.slice';
-import { DraggableText } from './DraggableText';
 import { useRef, useState } from 'react';
+import { DraggableElement } from '@pages/EditorPage/ui/CreateTab/StoryPreview/DraggableElement.tsx';
 
 interface StoryPreviewProps {
     selectedSlideId: number | null;
@@ -22,7 +22,7 @@ export const StoryPreview = ({
   onTextSelect,
 }: StoryPreviewProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const [selectedTextId, setSelectedTextId] = useState<string|null>(null);
+  const [selectedElementId, setSelectedElementId] = useState<string|null>(null);
   const activeSlide = slides.find(
     s => s.id === selectedSlideId,
   );
@@ -54,7 +54,7 @@ export const StoryPreview = ({
               if (!element) {return;}
 
               dispatch(
-                storyActions.updateTextElement({
+                storyActions.updateElement({
                   slideId: selectedSlideId,
                   elementId: String(active.id),
                   data: {
@@ -77,18 +77,18 @@ export const StoryPreview = ({
               onPointerDown={(e) => {
                 if (e.target === e.currentTarget) {
                   onTextSelect(null);
-                  setSelectedTextId(null);
+                  setSelectedElementId(null);
                 }
               }}
             >
-              {activeSlide?.textElements?.map(el=>(
-                <DraggableText
+              {activeSlide?.elements?.map(el => (
+                <DraggableElement
                   key={el.id}
                   element={el}
                   slideId={activeSlide.id}
-                  selected={selectedTextId===el.id}
-                  onSelect={(id)=>{
-                    setSelectedTextId(id);
+                  selected={selectedElementId === el.id}
+                  onSelect={(id) => {
+                    setSelectedElementId(id);
                     onTextSelect(id);
                   }}
                 />

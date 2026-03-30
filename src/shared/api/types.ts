@@ -61,19 +61,24 @@ export interface Story extends Omit<StoryPreview, 'slides_count'> {
   slides: Slide[];
 }
 
-export interface TextElement {
-    id: string
-    text: string
+export type ElementType = 'text' | 'actionButton' | 'callButton';
 
-    position: 'top' | 'center' | 'bottom' | 'custom'
+export interface Element {
+    id: string;
+    type: ElementType;
 
-    xPercent: number
-    yPercent: number
+    content: string;
+
+    xPercent: number;
+    yPercent: number;
+
+    link?: string;
 
     style: {
-        textColor: string
-        backgroundColor: string
-    }
+        textColor: string;
+        backgroundColor: string;
+        borderRadius?: number;
+    };
 }
 
 export interface Slide {
@@ -81,7 +86,7 @@ export interface Slide {
     story_id: number
     sort: number
 
-    textElements: TextElement[]
+    elements: Element[]
 
     isCtaVisible: boolean
     isCallTaskVisible: boolean
