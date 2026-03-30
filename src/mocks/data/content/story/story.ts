@@ -31,37 +31,44 @@ export const mockStories: StoryPreview[] = [
   },
 ];
 
-// Для детальной страницы - используем полный Story
 export const mockStoryDetail: Story = {
   ...mockStories[0],
-  // Дополнительные поля для полной истории
+
   title_position: 'middle',
   title_class: 'white-on-blue',
   subTitle: 'Специальные предложения',
 
-  // CTA на уровне истории
   cta_text: 'Получить подарок',
   cta_url: 'https://example.com/gift',
   cta_class: 'btn-primary',
   show_cta_on_cover: true,
 
-  // Действие и ссылки
   action: 'link',
   previewUrl: 'https://example.com/gift',
 
-  // Внешние связи
   effect_id: 1,
   filter_id: 1,
 
-  // Слайды
   slides: [
     {
       id: 1,
       story_id: 1,
       sort: 1,
-      text: '🎄 С Новым Годом! Специальные предложения для вас',
-      textPosition: 'middle',
-      textClass: 'white-on-blue',
+
+      elements: [
+        {
+          id: 'el-1',
+          type: 'text',
+          content: '🎄 С Новым Годом! Специальные предложения для вас',
+          xPercent: 0.1,
+          yPercent: 0.4,
+          style: {
+            textColor: '#ffffff',
+            backgroundColor: 'transparent',
+          },
+        },
+      ],
+
       isCtaVisible: false,
       isCallTaskVisible: false,
       useVideo: false,
@@ -71,9 +78,34 @@ export const mockStoryDetail: Story = {
       id: 2,
       story_id: 1,
       sort: 2,
-      text: 'Получите скидку 30% на все тарифы',
-      textPosition: 'bottom',
-      textClass: 'black-on-white',
+
+      elements: [
+        {
+          id: 'el-2',
+          type: 'text',
+          content: 'Получите скидку 30% на все тарифы',
+          xPercent: 0.1,
+          yPercent: 0.7,
+          style: {
+            textColor: '#000000',
+            backgroundColor: '#ffffff',
+          },
+        },
+        {
+          id: 'el-3',
+          type: 'actionButton',
+          content: 'Получить',
+          xPercent: 0.3,
+          yPercent: 0.85,
+          link: 'https://example.com/gift',
+          style: {
+            textColor: '#ffffff',
+            backgroundColor: '#007BFF',
+            borderRadius: 8,
+          },
+        },
+      ],
+
       isCtaVisible: true,
       isCallTaskVisible: false,
       useVideo: false,
@@ -82,35 +114,55 @@ export const mockStoryDetail: Story = {
   ],
 };
 
-// Создаем еще одну детальную историю для ID 2
 export const mockStoryDetail2: Story = {
   ...mockStories[1],
-  // Дополнительные поля для полной истории
+
   title_position: 'top',
   title_class: 'default',
 
-  // CTA на уровне истории
   cta_text: 'Узнать подробности',
   cta_url: 'https://example.com/tariffs',
   cta_class: 'btn-secondary',
   show_cta_on_cover: false,
 
-  // Действие и ссылки
   action: 'story',
 
-  // Внешние связи
   effect_id: 2,
   filter_id: 2,
 
-  // Слайды
   slides: [
     {
       id: 3,
       story_id: 2,
       sort: 1,
-      text: 'Обновление тарифов. Новые условия с 1 февраля',
-      textPosition: 'middle',
-      textClass: 'white-on-black',
+
+      elements: [
+        {
+          id: 'el-4',
+          type: 'text',
+          content: 'Обновление тарифов. Новые условия с 1 февраля',
+          xPercent: 0.1,
+          yPercent: 0.5,
+          style: {
+            textColor: '#ffffff',
+            backgroundColor: '#000000',
+          },
+        },
+        {
+          id: 'el-5',
+          type: 'callButton',
+          content: 'Позвонить',
+          xPercent: 0.3,
+          yPercent: 0.8,
+          link: 'tel:+123456789',
+          style: {
+            textColor: '#ffffff',
+            backgroundColor: '#28A745',
+            borderRadius: 8,
+          },
+        },
+      ],
+
       isCtaVisible: false,
       isCallTaskVisible: true,
       useVideo: false,

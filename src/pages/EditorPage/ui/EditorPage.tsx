@@ -46,7 +46,13 @@ export const EditorPage = () => {
             const saved = localStorage.getItem('editingStory');
 
             if (saved) {
-              dispatch(storyActions.setEditingStory(JSON.parse(saved)));
+              const parsed = JSON.parse(saved);
+
+              if (parsed.id === story.id) {
+                dispatch(storyActions.setEditingStory(parsed));
+              } else {
+                dispatch(storyActions.setEditingStory(story));
+              }
             } else {
               dispatch(storyActions.setEditingStory(story));
             }

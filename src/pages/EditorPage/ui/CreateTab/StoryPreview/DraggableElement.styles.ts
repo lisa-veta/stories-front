@@ -2,12 +2,11 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean }>`
   position: absolute;
-  left: 0;
+  left: 24px;
 
-  padding: ${({ $isButton }) => ($isButton ? '10px 16px' : '4px 8px')};
+  padding: ${({ $isButton }) => ($isButton ? '10px 16px' : '4px 16px')};
 
-  width: ${({ $isButton }) =>
-    $isButton ? '160px' : 'calc(100% - 16px)'};
+  width: calc(80% - 16px);
 
   border: ${({ $selected }) =>
     $selected ? '1px dashed #00A3FF' : '1px dashed transparent'};
@@ -15,7 +14,7 @@ export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean }>`
   cursor: move;
 
   display: flex;
-  justify-content: center;
+  justify-content: ${({ $isButton }) => ($isButton ? 'center' : 'flex-start')};;
   align-items: center;
 
   word-break: break-word;
