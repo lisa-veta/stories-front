@@ -31,20 +31,23 @@ export const PreviewStory = ({ slide, width, height, slidesCount, activeIndex, p
           }}
         >
           <SC.ProgressWrapper>
-            {Array.from({ length: slidesCount }).map((_, i) => (
-              <SC.ProgressTrack key={i}>
-                <SC.ProgressFill
-                  style={{
-                    width:
-                                    i < activeIndex
-                                      ? '100%'
-                                      : i === activeIndex
-                                        ? `${progress * 100}%`
-                                        : '0%',
-                  }}
-                />
-              </SC.ProgressTrack>
-            ))}
+            {Array.from({ length: slidesCount }).map((_, i) => {
+              const isActive = i === activeIndex;
+              const isDone = i < activeIndex;
+
+              return (
+                <SC.ProgressTrack key={i}>
+                  <SC.ProgressFill
+                    key={i}
+                    $active={isActive}
+                    $duration={5000}
+                    style={{
+                      transform: isDone ? 'scaleX(1)' : 'scaleX(0)',
+                    }}
+                  />
+                </SC.ProgressTrack>
+              );
+            })}
           </SC.ProgressWrapper>
           {slide?.elements.map(el => (
             <SC.Element

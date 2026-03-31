@@ -49,16 +49,32 @@ export const ProgressWrapper = styled.div`
 `;
 
 export const ProgressTrack = styled.div`
-  flex: 1;
-  height: 3px;
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 10px;
-  overflow: hidden;
+    flex: 1;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    overflow: hidden;
 `;
 
-export const ProgressFill = styled.div`
-  height: 100%;
-  background: white;
-  width: 0%;
-  transition: width 0.1s linear;
+export const ProgressFill = styled.div<{ $duration: number; $active: boolean }>`
+    height: 100%;
+    background: white;
+    width: 100%;
+    transform-origin: left;
+    transform: scaleX(0);
+
+    ${({ $active, $duration }) =>
+    $active &&
+            `
+    animation: fill ${$duration}ms linear forwards;
+  `}
+
+    @keyframes fill {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
 `;
