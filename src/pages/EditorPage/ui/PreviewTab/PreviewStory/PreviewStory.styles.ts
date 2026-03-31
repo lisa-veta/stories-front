@@ -36,3 +36,29 @@ export const Element = styled.div<{ $isButton: boolean }>`
   word-break: break-word;
   text-align: center;
 `;
+
+export const ProgressWrapper = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+
+  display: flex;
+  gap: 4px;
+  z-index: 10;
+`;
+
+export const ProgressTrack = styled.div`
+  flex: 1;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+`;
+
+export const ProgressFill = styled.div`
+  height: 100%;
+  background: white;
+  width: 0%;
+  transition: width 0.1s linear;
+`;

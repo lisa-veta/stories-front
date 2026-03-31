@@ -5,9 +5,13 @@ interface PreviewStoryProps {
     slide: Slide | undefined;
     width: number;
     height: number;
+
+    slidesCount: number;
+    activeIndex: number;
+    progress: number;
 }
 
-export const PreviewStory = ({ slide, width, height }: PreviewStoryProps) => {
+export const PreviewStory = ({ slide, width, height, slidesCount, activeIndex, progress  }: PreviewStoryProps) => {
   console.log('PreviewStory', slide);
   return (
     <SC.PhoneFrame>
@@ -26,10 +30,27 @@ export const PreviewStory = ({ slide, width, height }: PreviewStoryProps) => {
             backgroundPosition: 'center',
           }}
         >
+          <SC.ProgressWrapper>
+            {Array.from({ length: slidesCount }).map((_, i) => (
+              <SC.ProgressTrack key={i}>
+                <SC.ProgressFill
+                  style={{
+                    width:
+                                    i < activeIndex
+                                      ? '100%'
+                                      : i === activeIndex
+                                        ? `${progress * 100}%`
+                                        : '0%',
+                  }}
+                />
+              </SC.ProgressTrack>
+            ))}
+          </SC.ProgressWrapper>
           {slide?.elements.map(el => (
             <SC.Element
               key={el.id}
               style={{
+                cursor: el.type !== 'text' ? 'pointer' : 'default',
                 top: `${el.yPercent * 100}%`,
                 left: '24px',
 

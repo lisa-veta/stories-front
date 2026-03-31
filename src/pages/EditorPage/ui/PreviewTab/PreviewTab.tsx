@@ -1,6 +1,6 @@
 import * as SC from './PreviewTab.styles';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { StateSchema } from '@app/StoreProvider/config/StateShema';
 
 import { PreviewStory } from './PreviewStory/PreviewStory';
@@ -11,6 +11,8 @@ export const PreviewTab = () => {
   const editingStory = useSelector(
     (state: StateSchema) => state.content.stories.editingStory,
   );
+  const [progress, setProgress] = useState(0);
+  const duration = 5000;
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [device, setDevice] = useState(devices[0]);
@@ -27,6 +29,35 @@ export const PreviewTab = () => {
       Math.min(prev + 1, slides.length - 1),
     );
   };
+
+  useEffect(() => {
+    setProgress(0);
+
+    let start: number | null = null;
+    let raf: number;
+
+    const animate = (timestamp: number) => {
+      if (!start) {start = timestamp;}
+
+      const elapsed = timestamp - start;
+      const newProgress = Math.min(elapsed / duration, 1);
+
+      setProgress(newProgress);
+
+      if (newProgress < 1) {
+        raf = requestAnimationFrame(animate);
+      } else {
+        // auto next slide
+        setActiveIndex(prev =>
+          Math.min(prev + 1, slides.length - 1),
+        );
+      }
+    };
+
+    raf = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(raf);
+  }, [activeIndex, slides.length]);
 
   return (
     <SC.Container>
@@ -47,7 +78,12 @@ export const PreviewTab = () => {
 
       {/* PREVIEW */}
       <SC.PreviewWrapper>
-        <SC.Arrow onClick={handlePrev}>{'<'}</SC.Arrow>
+        <SC.Arrow
+          onClick={handlePrev}
+          $disabled={activeIndex === 0}
+        >
+              ›
+        </SC.Arrow>
 
         <SC.DeviceWrapper
           style={{
@@ -59,10 +95,18 @@ export const PreviewTab = () => {
             slide={activeSlide}
             width={device.width}
             height={device.height}
+            slidesCount={slides.length}
+            activeIndex={activeIndex}
+            progress={progress}
           />
         </SC.DeviceWrapper>
 
-        <SC.Arrow onClick={handleNext}>{'>'}</SC.Arrow>
+        <SC.Arrow
+          onClick={handleNext}
+          $disabled={activeIndex === slides.length - 1}
+        >
+              ›
+        </SC.Arrow>
       </SC.PreviewWrapper>
     </SC.Container>
   );
