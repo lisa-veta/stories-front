@@ -28,7 +28,9 @@ export const DraggableElement = ({
 
     color: element.style.textColor,
     background: element.style.backgroundColor,
-    borderRadius: element.style.borderRadius,
+    borderRadius: element.style.borderRadius
+      ? `${element.style.borderRadius}px`
+      : undefined,
   };
 
   const isButton = element.type !== 'text';

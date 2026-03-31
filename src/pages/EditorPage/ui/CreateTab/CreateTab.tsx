@@ -51,10 +51,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
   };
 
   const handleCropSave = (croppedImage: string) => {
-    if (selectedSlideId === null) {
-      dispatch(storyActions.updateCoverImage(croppedImage));
-      return;
-    }
+    if (!selectedSlideId) {return;}
 
     dispatch(
       storyActions.updateSlideImage({
@@ -158,6 +155,23 @@ export const CreateTab = ({ config }: CreateTabProps) => {
                   style: {
                     ...selectedElement.style,
                     [key]: value,
+                  },
+                },
+              }));
+
+              let parsedValue = value;
+
+              if (key === 'borderRadius') {
+                parsedValue = Number(value);
+              }
+
+              dispatch(storyActions.updateElement({
+                slideId: selectedSlideId,
+                elementId: selectedElement.id,
+                data: {
+                  style: {
+                    ...selectedElement.style,
+                    [key]: parsedValue,
                   },
                 },
               }));

@@ -45,6 +45,8 @@ const SortableSlide = ({
     onSelect: (id: number) => void;
     onDelete: (id: number) => void;
 }) => {
+
+  const isFirst = index === 0;
   const {
     setNodeRef,
     transform,
@@ -52,7 +54,10 @@ const SortableSlide = ({
     attributes,
     listeners,
     isDragging,
-  } = useSortable({ id: slide.id });
+  } = useSortable({
+    id: slide.id,
+    disabled: index === 0,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -69,26 +74,26 @@ const SortableSlide = ({
     >
       <SC.SlideLabel>
         <Typography variant="subtitle2">
-                    Слайд {index + 1}
+          {index === 0 ? 'Обложка' : `Слайд ${index + 1}`}
         </Typography>
       </SC.SlideLabel>
 
       <SC.DragHandle
-        {...attributes}
-        {...listeners}
-        onClick={(e) => e.stopPropagation()}
+        {...(index !== 0 ? attributes : {})}
+        {...(index !== 0 ? listeners : {})}
       >
                 ⋮⋮
       </SC.DragHandle>
-
-      <SC.DeleteButton
-        onClick={(e) => {
-          e.stopPropagation();
-          onDelete(slide.id);
-        }}
-      >
-        <BasketIcon />
-      </SC.DeleteButton>
+      {index !== 0 && (
+        <SC.DeleteButton
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete(slide.id);
+          }}
+        >
+          <BasketIcon />
+        </SC.DeleteButton>
+      )}
     </SC.SlideCard>
   );
 };
@@ -127,16 +132,6 @@ export const SlidesPanel = ({
   return (
     <SC.Container>
       <Typography variant="subtitle1">Истории</Typography>
-      <SC.SlideCard
-        $selected={selectedSlideId === null}
-        onClick={() => onSlideSelect(null)}
-      >
-        <SC.SlideLabel>
-          <Typography variant="subtitle2">
-                    Обложка
-          </Typography>
-        </SC.SlideLabel>
-      </SC.SlideCard>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

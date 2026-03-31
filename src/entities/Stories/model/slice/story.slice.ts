@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { storyAdapter } from '@entities/Stories/model/adapter/story.adapter';
-import type {Story, Element, ElementType} from '@shared/api';
+import type { Story, Element, ElementType } from '@shared/api';
 
 
 const initialState = storyAdapter.getInitialState<{
@@ -36,16 +36,22 @@ export const storySlice = createSlice({
       state.editingStory.slides.push(newSlide);
     },
 
-    deleteSlide(state, action: PayloadAction<number>) {
+    deleteSlide(state, action) {
       if (!state.editingStory) {return;}
+
+      const index = state.editingStory.slides.findIndex(
+        s => s.id === action.payload,
+      );
+
+      if (index === 0) {return;} // 🔒 нельзя удалить обложку
 
       state.editingStory.slides =
               state.editingStory.slides.filter(
                 s => s.id !== action.payload,
               );
 
-      state.editingStory.slides.forEach((s, index) => {
-        s.sort = index;
+      state.editingStory.slides.forEach((s, i) => {
+        s.sort = i;
       });
     },
 
@@ -113,21 +119,26 @@ export const storySlice = createSlice({
       );
 
       if (!slide) {return;}
+      let content = '';
+      if (action.payload.type === 'actionButton') {
+        content = 'Перейти';
+      } else if (action.payload.type === 'callButton') {
+        content = 'Запросить звонок';
+      }
 
       const base = {
         id: Date.now().toString(),
         xPercent: 0.3,
         yPercent: 0.5,
-        content:
-                  action.payload.type === 'text' ? 'Введите текст' : 'Кнопка',
+        content,
         style: {
           textColor: '#000',
           backgroundColor:
-                      action.payload.type === 'text'
-                        ? 'transparent'
-                        : '#007BFF',
+                    action.payload.type === 'text'
+                      ? 'transparent'
+                      : '#007BFF',
           borderRadius:
-                      action.payload.type === 'text' ? undefined : 8,
+                    action.payload.type === 'text' ? 0 : 8,
         },
       };
 

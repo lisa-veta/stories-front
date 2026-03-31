@@ -28,10 +28,7 @@ export const StoryPreview = ({
   );
   const dispatch = useDispatch();
 
-  const backgroundImage =
-        selectedSlideId === null
-          ? coverImage
-          : activeSlide?.image_url;
+  const backgroundImage = activeSlide?.image_url;
 
   return (
     <SC.PhoneFrame>
