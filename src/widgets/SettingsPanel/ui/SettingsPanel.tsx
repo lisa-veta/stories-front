@@ -64,7 +64,8 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }
       return (
         <CustomSelect
           options={item.options || []}
-          // TODO: добавить value и onChange
+          value={value}
+          onChange={(v) => onChange?.(item.name, v)}
         />
       );
 

@@ -12,10 +12,11 @@ interface CreateTabProps {
     config: any[];
 }
 
-export interface Slide {
-    id: number | 'cover';
-    image?: string;
-}
+const positionMap = {
+  top: 0.1,
+  center: 0.5,
+  bottom: 0.85,
+};
 
 export const CreateTab = ({ config }: CreateTabProps) => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
@@ -29,15 +30,14 @@ export const CreateTab = ({ config }: CreateTabProps) => {
 
   const [selectedSlideId, setSelectedSlideId] = useState<number | null>(null);
 
-  const [selectedTextElementId, setSelectedTextElementId] = useState<string | null>(null);
   const activeSlide = editingStory?.slides?.find(
     s => s.id === selectedSlideId,
   );
+  const [selectedElementId, setSelectedElementId] = useState<string | null>(null);
 
-  const selectedTextElement =
-        activeSlide?.elements?.find(
-          el => el.id === selectedTextElementId,
-        ) ?? null;
+  const selectedElement =
+        activeSlide?.elements?.find(el => el.id === selectedElementId) ?? null;
+
 
   const handleImageUpload = (file: File) => {
     const reader = new FileReader();
@@ -90,43 +90,77 @@ export const CreateTab = ({ config }: CreateTabProps) => {
     );
   };
 
+  const isCover = selectedSlideId === editingStory?.slides?.[0]?.id;
+  const filteredConfig = config.filter(panel => {
+    if (isCover) {
+      return ['Карусель', 'Обложка', 'Заголовок', 'Кнопка действия', 'Кнопка для звонка']
+        .includes(panel.title);
+    }
+
+    return ['Обложка', 'Текст', 'Кнопка действия', 'Кнопка для звонка']
+      .includes(panel.title);
+  });
+
   return (
     <SC.Container>
       <SC.LeftPanel>
-        {config.map((panelConfig: any, index: number) => (
+        {filteredConfig.map((panelConfig: any, index: number) => (
           <SettingsPanel
             key={`create-${index}`}
             config={panelConfig}
             values={{
               slide: {
-                text: {
-                  text: selectedTextElement?.content ?? '',
-                  ...selectedTextElement?.style,
+                [selectedElement?.type || 'text']: {
+                  text: selectedElement?.content ?? '',
+                  ...selectedElement?.style,
+                  link: selectedElement?.link,
                 },
               },
             }}
             onChange={(field, value) => {
+              if (!selectedElement || !selectedSlideId) {return;}
 
-              if (!selectedTextElement || !selectedSlideId) {return;}
-
-              const styleKey = field.split('.').pop();
-
-              dispatch(
-                storyActions.updateElement({
+              const key = field.split('.').pop();
+              if (key === 'text') {
+                dispatch(storyActions.updateElement({
                   slideId: selectedSlideId,
-                  elementId: selectedTextElement.id,
-                  data:
-                            styleKey === 'text'
-                              ? { content: value }
-                              : {
-                                style: {
-                                  ...selectedTextElement.style,
-                                  [styleKey]: value,
-                                },
-                              },
-                }),
-              );
+                  elementId: selectedElement.id,
+                  data: { content: value },
+                }));
+                return;
+              }
 
+              if (key === 'link') {
+                dispatch(storyActions.updateElement({
+                  slideId: selectedSlideId,
+                  elementId: selectedElement.id,
+                  data: { link: value },
+                }));
+                return;
+              }
+              if (key === 'position') {
+                if (value !== 'custom') {
+                  dispatch(storyActions.updateElement({
+                    slideId: selectedSlideId,
+                    elementId: selectedElement.id,
+                    data: {
+                      yPercent: positionMap[value],
+                    },
+                  }));
+                }
+                return;
+              }
+
+              dispatch(storyActions.updateElement({
+                slideId: selectedSlideId,
+                elementId: selectedElement.id,
+                data: {
+                  style: {
+                    ...selectedElement.style,
+                    [key]: value,
+                  },
+                },
+              }));
             }}
             onImageUpload={handleImageUpload}
             onAdd={
@@ -165,7 +199,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
               setIsCropOpen(true);
             }
           }}
-          onTextSelect={setSelectedTextElementId}
+          onTextSelect={setSelectedElementId}
         />
       </SC.CenterPanel>
 
