@@ -14,11 +14,11 @@ export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean }>`
   cursor: move;
 
   display: flex;
-  justify-content: ${({ $isButton }) => ($isButton ? 'center' : 'flex-start')};;
+  justify-content: ${({ $isButton }) => ($isButton ? 'center' : 'flex-start')};
   align-items: center;
 
   word-break: break-word;
-  text-align: center;
+  text-align: ${({ $isButton }) => ($isButton ? 'center' : 'flex-start')};;
 `;
 
 export const Content = styled.div`

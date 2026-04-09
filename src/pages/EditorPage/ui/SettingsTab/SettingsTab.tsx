@@ -1,5 +1,6 @@
 import * as SC from './SettingsTab.styles';
 import { SettingsPanel } from '@widgets/SettingsPanel';
+import { useState } from 'react';
 
 interface SettingsTabProps {
     generalConfig: any[];
@@ -7,47 +8,65 @@ interface SettingsTabProps {
     flagsConfig: any[];
 }
 
-export const SettingsTab = ({ generalConfig, filtersConfig, flagsConfig }: SettingsTabProps) => {
+type TabType = 'general' | 'filters' | 'flags';
+
+export const SettingsTab = ({
+  generalConfig,
+  filtersConfig,
+  flagsConfig,
+}: SettingsTabProps) => {
+  const [activeTab, setActiveTab] = useState<TabType>('general');
+
+  const renderContent = () => {
+    switch (activeTab) {
+    case 'general':
+      return generalConfig;
+    case 'filters':
+      return filtersConfig;
+    case 'flags':
+      return flagsConfig;
+    default:
+      return [];
+    }
+  };
+
   return (
-    <SC.Container>
-      {/* Общие настройки */}
-      <div>
-        <SC.SectionTitle>Общие настройки</SC.SectionTitle>
-        <SC.SettingsGroup>
-          {generalConfig.map((panelConfig: any, index: number) => (
-            <SettingsPanel
-              key={`general-${index}`}
-              config={panelConfig}
-            />
-          ))}
-        </SC.SettingsGroup>
-      </div>
+    <SC.Layout>
+      <SC.Sidebar>
+        <SC.SidebarItem
+          active={activeTab === 'general'}
+          onClick={() => setActiveTab('general')}
+        >
+                  Общие настройки
+        </SC.SidebarItem>
 
-      {/* Фильтры */}
-      <div>
-        <SC.SectionTitle>Фильтры</SC.SectionTitle>
-        <SC.SettingsGroup>
-          {filtersConfig.map((panelConfig: any, index: number) => (
-            <SettingsPanel
-              key={`filters-${index}`}
-              config={panelConfig}
-            />
-          ))}
-        </SC.SettingsGroup>
-      </div>
+        <SC.SidebarItem
+          active={activeTab === 'filters'}
+          onClick={() => setActiveTab('filters')}
+        >
+                  Фильтры
+        </SC.SidebarItem>
 
-      {/* Флаги */}
-      <div>
-        <SC.SectionTitle>Флаги</SC.SectionTitle>
-        <SC.SettingsGroup>
-          {flagsConfig.map((panelConfig: any, index: number) => (
-            <SettingsPanel
-              key={`flags-${index}`}
-              config={panelConfig}
-            />
-          ))}
-        </SC.SettingsGroup>
-      </div>
-    </SC.Container>
+        <SC.SidebarItem
+          active={activeTab === 'flags'}
+          onClick={() => setActiveTab('flags')}
+        >
+                  Флаги
+        </SC.SidebarItem>
+      </SC.Sidebar>
+
+      <SC.ContentWrapper>
+        <SC.Content>
+          <SC.SettingsGroup>
+            {renderContent().map((panelConfig: any, index: number) => (
+              <SettingsPanel
+                key={`${activeTab}-${index}`}
+                config={panelConfig}
+              />
+            ))}
+          </SC.SettingsGroup>
+        </SC.Content>
+      </SC.ContentWrapper>
+    </SC.Layout>
   );
 };

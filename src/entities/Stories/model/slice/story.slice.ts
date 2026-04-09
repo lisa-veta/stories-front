@@ -119,7 +119,7 @@ export const storySlice = createSlice({
       );
 
       if (!slide) {return;}
-      let content = '';
+      let content = 'Введите текст';
       if (action.payload.type === 'actionButton') {
         content = 'Перейти';
       } else if (action.payload.type === 'callButton') {
