@@ -4,9 +4,14 @@ import { Select, DatePicker } from 'antd';
 import type { SelectProps } from 'antd';
 
 export const MultipleSelect: React.FC<SelectProps> = ({
-  placeholder = 'Please select',
+  placeholder = 'Выберите значение',
   suffixIcon = <DownOutlined />,
-  style = { width: '100%' },
+  style={
+    width: '100%',
+    fontSize: '16px',
+    borderRadius: '20px',
+    padding: '5px 19px',
+    border: '1px solid rgba(0, 0, 0, 0.1)' },
   ...props
 }) => {
   const [value, setValue] = useState<string[]>(props.defaultValue as string[] || []);

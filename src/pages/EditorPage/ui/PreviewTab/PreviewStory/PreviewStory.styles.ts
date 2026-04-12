@@ -20,7 +20,8 @@ export const PreviewContent = styled.div`
   height: 100%;
 `;
 
-export const Element = styled.div<{ $isButton: boolean }>`
+export const Element = styled.div<{ $isButton: boolean,  $radius?: string }>`
+    border-radius: ${({ $radius }) => $radius || '10px'};
   position: absolute;
 
   padding: ${({ $isButton }) =>
@@ -34,7 +35,9 @@ export const Element = styled.div<{ $isButton: boolean }>`
   align-items: center;
 
   word-break: break-word;
-  text-align: center;
+    text-align: ${({ $isButton }) => ($isButton ? 'center' : 'left')};
+    overflow: hidden;
+    border-radius: inherit; 
 `;
 
 export const ProgressWrapper = styled.div`

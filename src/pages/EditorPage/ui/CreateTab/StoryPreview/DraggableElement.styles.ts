@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean }>`
+export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean, $radius?: string }>`
+    border-radius: ${({ $radius }) => $radius || '10px'};
   position: absolute;
   left: 24px;
 
@@ -18,7 +19,8 @@ export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean }>`
   align-items: center;
 
   word-break: break-word;
-  text-align: ${({ $isButton }) => ($isButton ? 'center' : 'flex-start')};;
+    text-align: ${({ $isButton }) => ($isButton ? 'center' : 'left')};
+    overflow: hidden;
 `;
 
 export const Content = styled.div`

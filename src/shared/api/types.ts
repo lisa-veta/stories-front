@@ -78,6 +78,9 @@ export interface Element {
         textColor: string;
         backgroundColor: string;
         borderRadius?: number;
+
+        fontSize?: number;
+        fontStyles?: Array<'bold' | 'italic' | 'underline'>;
     };
 }
 

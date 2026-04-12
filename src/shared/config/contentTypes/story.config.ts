@@ -105,14 +105,21 @@ export const storyConfig: ContentTypeConfig = {
                   defaultValue: "center"
               },
               {
-                  title: "Стиль текста",
-                  name: "slide.text.style",
-                  component: "Select",
+                  title: "Размер текста",
+                  name: "slide.text.fontSize",
+                  component: "Input",
+                  type: "number",
+                  placeholder: "16"
+              },
+              {
+                  title: "Формат текста",
+                  name: "slide.text.fontStyles",
+                  component: "MultiSelect",
                   options: [
-                      {value: "custom", label: "Кастомный"},
-                      {value: "default", label: "Не кастомный"}
-                  ],
-                  defaultValue: "default"
+                      { value: "bold", label: "Жирный" },
+                      { value: "italic", label: "Курсив" },
+                      { value: "underline", label: "Подчеркнутый" }
+                  ]
               },
               {
                   title: "Цвет текста",

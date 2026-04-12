@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import * as SC from './DraggableElement.styles';
 import { storyActions } from '@entities/Stories/model/slice/story.slice.ts';
+import { getElementStyles } from '@shared/lib/helper';
 
 export const DraggableElement = ({
   element,
@@ -21,16 +22,15 @@ export const DraggableElement = ({
           data: element,
         });
 
-  const style = {
+  const baseStyles = getElementStyles(element);
+  const dragStyles = {
     top: `${element.yPercent * 100}%`,
     transform: CSS.Translate.toString(transform),
     transformOrigin: 'top left',
-
-    color: element.style.textColor,
-    background: element.style.backgroundColor,
-    borderRadius: element.style.borderRadius
-      ? `${element.style.borderRadius}px`
-      : '10px',
+  };
+  const style = {
+    ...baseStyles,
+    ...dragStyles,
   };
 
   const isButton = element.type !== 'text';

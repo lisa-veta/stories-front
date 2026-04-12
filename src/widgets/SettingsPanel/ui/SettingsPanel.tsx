@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { CheckboxItem } from '@shared/ui/Checkbox/ui/CheckboxItem.tsx';
 import { ColorPickerItem } from '@shared/ui/ColorPicker';
 import { Typography } from '@shared/ui/Typography';
-import { CustomSelect } from '@shared/ui/Select/ui/MultipleSelect';
+import {CustomSelect, MultipleSelect} from '@shared/ui/Select/ui/MultipleSelect';
 import { CustomInput } from '@shared/ui/CustomInput';
 import type { SettingsPanelConfig } from '@shared/config/types';
 
@@ -63,6 +63,15 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }
     case 'Select':
       return (
         <CustomSelect
+          options={item.options || []}
+          value={value}
+          onChange={(v) => onChange?.(item.name, v)}
+        />
+      );
+
+    case 'MultiSelect':
+      return (
+        <MultipleSelect
           options={item.options || []}
           value={value}
           onChange={(v) => onChange?.(item.name, v)}

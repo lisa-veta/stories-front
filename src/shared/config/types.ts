@@ -1,7 +1,7 @@
 export interface ConfigItem {
   title: string;
   name: string;
-  component: 'Input' | 'Select' | 'ColorPicker' | 'Checkbox';
+  component: 'Input' | 'Select' | 'ColorPicker' | 'Checkbox' | 'MultiSelect';
   required?: boolean;
   placeholder?: string;
   type?: string;

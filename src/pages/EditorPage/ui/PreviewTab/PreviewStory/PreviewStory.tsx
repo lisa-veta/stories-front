@@ -1,5 +1,6 @@
 import * as SC from './PreviewStory.styles';
 import type { Slide } from '@shared/api';
+import { getElementStyles } from '@shared/lib/helper';
 
 interface PreviewStoryProps {
     slide: Slide | undefined;
@@ -49,25 +50,25 @@ export const PreviewStory = ({ slide, width, height, slidesCount, activeIndex, p
               );
             })}
           </SC.ProgressWrapper>
-          {slide?.elements.map(el => (
-            <SC.Element
-              key={el.id}
-              style={{
-                cursor: el.type !== 'text' ? 'pointer' : 'default',
-                top: `${el.yPercent * 100}%`,
-                left: '24px',
-
-                color: el.style.textColor,
-                background: el.style.backgroundColor,
-                borderRadius: el.style.borderRadius
-                  ? `${el.style.borderRadius}px`
-                  : undefined,
-              }}
-              $isButton={el.type !== 'text'}
-            >
-              {el.content}
-            </SC.Element>
-          ))}
+          {slide?.elements.map(el => {
+            const baseStyles = getElementStyles(el);
+            const positionStyles = {
+              top: `${el.yPercent * 100}%`,
+              left: '24px',
+            };
+            return (
+              <SC.Element
+                key={el.id}
+                style={{
+                  ...baseStyles,
+                  ...positionStyles,
+                }}
+                $isButton={el.type !== 'text'}
+              >
+                {el.content}
+              </SC.Element>
+            );
+          })}
         </SC.PreviewContent>
       </SC.PhoneScreen>
     </SC.PhoneFrame>
