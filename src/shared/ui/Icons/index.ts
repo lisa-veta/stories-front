@@ -14,3 +14,4 @@ export { Calendar as CalendarIcon } from './Calendar';
 export { Plus as PlusIcon } from './Plus';
 export { Filters as FiltersIcon } from './Filters';
 export { Statistics as StatisticsIcon } from './Statistics';
+export { Close as CloseIcon } from './Close';

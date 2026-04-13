@@ -21,6 +21,8 @@ const positionMap = {
 export const CreateTab = ({ config }: CreateTabProps) => {
   const [originalImage, setOriginalImage] = useState<string | null>(null);
   const [isCropOpen, setIsCropOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<string | null>(null); // открытие
+  const [priorityPanel, setPriorityPanel] = useState<string | null>(null); // для сортировки
 
   const dispatch = useDispatch();
 
@@ -90,7 +92,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
   const isCover = selectedSlideId === editingStory?.slides?.[0]?.id;
   const filteredConfig = config.filter(panel => {
     if (isCover) {
-      return ['Карусель', 'Обложка', 'Заголовок', 'Кнопка действия', 'Кнопка для звонка']
+      return ['Карусель', 'Обложка', 'Текст', 'Кнопка действия', 'Кнопка для звонка']
         .includes(panel.title);
     }
 
@@ -98,13 +100,45 @@ export const CreateTab = ({ config }: CreateTabProps) => {
       .includes(panel.title);
   });
 
+  useEffect(() => {
+    if (!selectedElement) {
+      setPriorityPanel(null);
+      return;
+    }
+
+    const map = {
+      text: 'Текст',
+      actionButton: 'Кнопка действия',
+      callButton: 'Кнопка для звонка',
+    };
+
+    const panelTitle = map[selectedElement.type];
+
+    if (panelTitle) {
+      setActivePanel(panelTitle);
+      setPriorityPanel(panelTitle);
+    }
+  }, [selectedElement]);;
+
+  const sortedConfig = [...filteredConfig].sort((a, b) => {
+    if (a.title === priorityPanel) {return -1;}
+    if (b.title === priorityPanel) {return 1;}
+    return 0;
+  });
+
+  const handleSave = () => {
+    if (!editingStory) {return;}
+    localStorage.setItem('editingStory', JSON.stringify(editingStory));
+  };
+
   return (
     <SC.Container>
       <SC.LeftPanel>
-        {filteredConfig.map((panelConfig: any, index: number) => (
+        {sortedConfig.map((panelConfig: any, index: number) => (
           <SettingsPanel
             key={`create-${index}`}
             config={panelConfig}
+            isExpanded={activePanel === panelConfig.title}
             values={{
               slide: {
                 [selectedElement?.type || 'text']: {
@@ -177,6 +211,11 @@ export const CreateTab = ({ config }: CreateTabProps) => {
               }));
             }}
             onImageUpload={handleImageUpload}
+            onToggle={() => {
+              setActivePanel(prev =>
+                prev === panelConfig.title ? null : panelConfig.title,
+              );
+            }}
             onAdd={
               panelConfig.title === 'Текст'
                 ? () => handleAddElement('text')
@@ -222,6 +261,7 @@ export const CreateTab = ({ config }: CreateTabProps) => {
           slides={editingStory?.slides ?? []}
           selectedSlideId={selectedSlideId}
           onSlideSelect={setSelectedSlideId}
+          onSave={handleSave}
         />
       </SC.RightPanel>
       {isCropOpen && originalImage && (

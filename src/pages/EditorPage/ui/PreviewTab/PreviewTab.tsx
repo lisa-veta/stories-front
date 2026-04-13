@@ -6,6 +6,8 @@ import type { StateSchema } from '@app/StoreProvider/config/StateShema';
 import { PreviewStory } from './PreviewStory/PreviewStory';
 import { CustomSelect } from '@shared/ui/Select/ui/MultipleSelect';
 import { devices } from '@shared/config';
+import { ArrowIcon } from '@shared/ui/Icons';
+import {SlidesPanel} from "@pages/EditorPage/ui/CreateTab/SlidesPanel/SlidesPanel.tsx";
 
 export const PreviewTab = () => {
   const editingStory = useSelector(
@@ -82,7 +84,7 @@ export const PreviewTab = () => {
           onClick={handlePrev}
           $disabled={activeIndex === 0}
         >
-              ›
+          <ArrowIcon rotate={-90}/>
         </SC.Arrow>
 
         <SC.DeviceWrapper
@@ -105,7 +107,7 @@ export const PreviewTab = () => {
           onClick={handleNext}
           $disabled={activeIndex === slides.length - 1}
         >
-              ›
+          <ArrowIcon rotate={90}/>
         </SC.Arrow>
       </SC.PreviewWrapper>
     </SC.Container>

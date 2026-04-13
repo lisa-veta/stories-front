@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { storyActions } from '@entities/Stories/model/slice/story.slice';
 import { useRef, useState } from 'react';
 import { DraggableElement } from '@pages/EditorPage/ui/CreateTab/StoryPreview/DraggableElement.tsx';
+import { EditIcon } from '@shared/ui/Icons';
 
 interface StoryPreviewProps {
     selectedSlideId: number | null;
@@ -95,7 +96,7 @@ export const StoryPreview = ({
             {backgroundImage && (
               <SC.EditOverlay>
                 <SC.EditButton onClick={onEditImage}>
-                                ✏
+                  <EditIcon/>
                 </SC.EditButton>
               </SC.EditOverlay>
             )}

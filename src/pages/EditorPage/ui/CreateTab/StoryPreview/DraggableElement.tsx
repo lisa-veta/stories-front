@@ -6,6 +6,7 @@ import { useState } from 'react';
 import * as SC from './DraggableElement.styles';
 import { storyActions } from '@entities/Stories/model/slice/story.slice.ts';
 import { getElementStyles } from '@shared/lib/helper';
+import { CloseIcon } from '@shared/ui/Icons';
 
 export const DraggableElement = ({
   element,
@@ -82,7 +83,7 @@ export const DraggableElement = ({
             )
           }
         >
-                    ×
+          <CloseIcon/>
         </SC.DeleteButton>
       )}
     </SC.Wrapper>

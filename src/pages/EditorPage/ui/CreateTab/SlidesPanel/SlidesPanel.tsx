@@ -30,6 +30,7 @@ interface SlidesPanelProps {
     slides: Slide[];
     selectedSlideId: number | null;
     onSlideSelect: (id: number) => void;
+    onSave?: () => void;
 }
 
 const SortableSlide = ({
@@ -102,6 +103,7 @@ export const SlidesPanel = ({
   slides,
   selectedSlideId,
   onSlideSelect,
+  onSave,
 }: SlidesPanelProps) => {
   const dispatch = useDispatch();
   const sensors = useSensors(useSensor(PointerSensor));
@@ -157,10 +159,16 @@ export const SlidesPanel = ({
         </SortableContext>
       </DndContext>
 
-      <Button onClick={handleAddSlide}>
-        <PlusIcon />
-        <Typography>Добавить</Typography>
-      </Button>
+      <SC.BottomActions>
+        <Button onClick={handleAddSlide}>
+          <PlusIcon />
+          <Typography>Добавить</Typography>
+        </Button>
+
+        <Button onClick={onSave}>
+          <Typography>Сохранить</Typography>
+        </Button>
+      </SC.BottomActions>
     </SC.Container>
   );
 };

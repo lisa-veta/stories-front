@@ -12,8 +12,7 @@ interface PreviewStoryProps {
     progress: number;
 }
 
-export const PreviewStory = ({ slide, width, height, slidesCount, activeIndex, progress  }: PreviewStoryProps) => {
-  console.log('PreviewStory', slide);
+export const PreviewStory = ({ slide, width, height, slidesCount, activeIndex  }: PreviewStoryProps) => {
   return (
     <SC.PhoneFrame>
       <SC.PhoneScreen

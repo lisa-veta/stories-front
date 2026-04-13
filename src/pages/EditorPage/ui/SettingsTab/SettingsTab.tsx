@@ -16,6 +16,7 @@ export const SettingsTab = ({
   flagsConfig,
 }: SettingsTabProps) => {
   const [activeTab, setActiveTab] = useState<TabType>('general');
+  const [activePanel, setActivePanel] = useState<string | null>(null);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -30,26 +31,31 @@ export const SettingsTab = ({
     }
   };
 
+  const handleTabChange = (tab: TabType) => {
+    setActiveTab(tab);
+    setActivePanel(null);
+  };
+
   return (
     <SC.Layout>
       <SC.Sidebar>
         <SC.SidebarItem
           active={activeTab === 'general'}
-          onClick={() => setActiveTab('general')}
+          onClick={() => handleTabChange('general')}
         >
                   Общие настройки
         </SC.SidebarItem>
 
         <SC.SidebarItem
           active={activeTab === 'filters'}
-          onClick={() => setActiveTab('filters')}
+          onClick={() => handleTabChange('filters')}
         >
                   Фильтры
         </SC.SidebarItem>
 
         <SC.SidebarItem
           active={activeTab === 'flags'}
-          onClick={() => setActiveTab('flags')}
+          onClick={() => handleTabChange('flags')}
         >
                   Флаги
         </SC.SidebarItem>
@@ -62,6 +68,12 @@ export const SettingsTab = ({
               <SettingsPanel
                 key={`${activeTab}-${index}`}
                 config={panelConfig}
+                isExpanded={activePanel === panelConfig.title}
+                onToggle={() => {
+                  setActivePanel(prev =>
+                    prev === panelConfig.title ? null : panelConfig.title,
+                  );
+                }}
               />
             ))}
           </SC.SettingsGroup>

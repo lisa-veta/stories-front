@@ -6,7 +6,7 @@ import { useRef, useState } from 'react';
 import { CheckboxItem } from '@shared/ui/Checkbox/ui/CheckboxItem.tsx';
 import { ColorPickerItem } from '@shared/ui/ColorPicker';
 import { Typography } from '@shared/ui/Typography';
-import {CustomSelect, MultipleSelect} from '@shared/ui/Select/ui/MultipleSelect';
+import { CustomSelect, MultipleSelect } from '@shared/ui/Select/ui/MultipleSelect';
 import { CustomInput } from '@shared/ui/CustomInput';
 import type { SettingsPanelConfig } from '@shared/config/types';
 
@@ -16,14 +16,15 @@ interface SettingsPanelProps {
     onChange?: (field: string, value: any) => void;
     onImageUpload?: (file: File) => void;
     onAdd?: () => void;
+    isExpanded?: boolean;
+    onToggle?: () => void;
 }
 
 function getValueByPath(obj: any, path: string) {
   return path.split('.').reduce((acc, key) => acc?.[key], obj);
 }
 
-export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }: SettingsPanelProps) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values, isExpanded, onToggle }: SettingsPanelProps) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (
@@ -35,7 +36,7 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }
     }
   };
   const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
+    onToggle?.();
   };
 
   const renderFormItem = (item: any) => {
@@ -99,7 +100,7 @@ export const SettingsPanel = ({ config, onImageUpload, onAdd, onChange, values }
           {config.title}
         </Typography>
         <SC.ArrowIconWrapper $isExpanded={isExpanded}>
-          <ArrowIcon />
+          <ArrowIcon rotate={180}/>
         </SC.ArrowIconWrapper>
       </SC.Title>
       <SC.Content $isExpanded={isExpanded}>

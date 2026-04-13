@@ -20,7 +20,6 @@ export const Wrapper = styled.div<{ $selected: boolean; $isButton: boolean, $rad
 
   word-break: break-word;
     text-align: ${({ $isButton }) => ($isButton ? 'center' : 'left')};
-    overflow: hidden;
 `;
 
 export const Content = styled.div`
@@ -30,28 +29,37 @@ export const Content = styled.div`
 `;
 
 export const DeleteButton = styled.button`
-  position: absolute;
-  top: -10px;
-  right: -10px;
+    position: absolute;
+    top: -10px;
+    right: -10px;
 
-  width: 20px;
-  height: 20px;
+    width: 24px;
+    height: 24px;
 
-  border-radius: 50%;
-  border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  background: #ff4d4f;
-  color: #fff;
+    border-radius: 50%;
+    border: none;
 
-  cursor: pointer;
+    background: #ff4d4f;
+    color: #fff;
 
-  opacity: 0;
-  pointer-events: none;
+    cursor: pointer;
 
-  transition: opacity 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
 
-  ${Wrapper}:hover & {
-    opacity: 1;
-    pointer-events: auto;
-  }
+    transition: opacity 0.2s ease;
+
+    ${Wrapper}:hover & {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    svg {
+        width: 300%;
+        height: 300%;
+    }
 `;
